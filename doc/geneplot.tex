@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\begin{document}
+\title{A Guide to the routines in the geneplotter package}
+\maketitle
+
+\section{Introduction}
+
+The geneplotter package contains the graphics and visualiation
+functionality for the Bioconductor project. 
+
+
+\section{Microarray Images}
+
+For most microarray experiments some variant of a plot that groups (or
+orders) both samples and genes according to similar levels of
+expression is made.
+Typically one performs agglomerative hierarchical clustering to
+determine which samples (or genes) are close to each other.
+A dendrogram imposes some restriction on the order of the observations
+but not a complete one. For a dendrogram based on $n$ observations
+there are $2^{n-1}$ orderings that are consistent with the dendrogram
+ordering. Thus a second, external quantity is used to select one of
+these orders. Often that quantity is the average expression for either
+the sample or gene (depending on which was being clustered).
+
+There are many other potential means of ordering the observations.
+One example would be to use the order derived from a minimal spanning
+tree or from a single--linkage cluster analysis.
+Carr and Olsen (1996) propose using the first principle component
+scores as a means of ordering. They also suggest using single linkage
+clustering and {\em to borrow the ordering from the ensuing
+  dendrogram}.
+
+
+In the genecluster package are functions for ordering observations
+within clusters and ordering the clusters.
+
+
+The basic building blocks for such a plot are the ability to reorder
+both the rows and the columns of an array according to classifications
+given by the clustering algorithm
+
+
+
+
+\end{document}

@@ -4,12 +4,12 @@ nsc <-
         NULL, threshold = NULL, n.threshold = 30, hetero = NULL, scale.sd = 
         TRUE, threshold.scale = NULL, se.scale = NULL, offset.percent = 50, 
         prior = table(y)/length(y), remove.zeros = TRUE, sign.contrast = "both",
-           problem.type=c("class", "surv.km"))
+           problem.type=c("class", "surv.km","surv.latent"))
 {
 
 # modified aug 2003 to add survival analysis facilities
 #
-#         problem.type can be "class", "surv.km"  
+#         problem.type can be "class", "surv.km", or "surv.latent"         
 #
 #         y= class variable => classification problem (problem.type="class")
 #         proby= matrix of class probabilities => "soft classification"
@@ -23,7 +23,7 @@ nsc <-
         if(is.null(ytest)) {
                 argy <- y
         }
-        if(!is.null(y) & !is.null(proby)) {
+        if(!is.null(y) & !is.null(proby) & problem.type!="surv.latent") {
                 stop("Can't specify both y and proby")
         }
         if(!is.null(ytest) & !is.null(prob.ytest)) {

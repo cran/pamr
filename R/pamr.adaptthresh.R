@@ -1,4 +1,4 @@
-pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE, print=FALSE) {
+pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE) {
   errors <- error.nsc(object)
   threshold <- object$threshold   
 ### Remove all but the first leading zero errors
@@ -19,8 +19,8 @@ pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.o
   all.scales[1,  ] <- tscales
   all.errors[1,  ] <- errors
   rocs[1] <- roc.nsc(object)      # integrated size^(1/4)*error
-  if(print){cat("Initial errors:", format(round(errors, 5)), "Roc",
-      format(round(rocs[1], 5)), "\n")}
+  cat("Initial errors:", format(round(errors, 5)), "Roc",
+      format(round(rocs[1], 5)), "\n")
   for (i in seq(ntries)) {
     cat("Update", i, "\n")
     j <- rev(order(errors))[1]      # identify the largest error
@@ -32,8 +32,8 @@ pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.o
                       FALSE)
     all.errors[i + 1,  ] <- errors <- error.nsc(iobject)
     rocs[i + 1] <- roc.nsc(iobject)
-    if(print){cat("\nErrors", format(round(errors, 5)), "Roc",
-        format(round(rocs[i + 1], 5)), "\n")}
+    cat("\nErrors", format(round(errors, 5)), "Roc",
+        format(round(rocs[i + 1], 5)), "\n")
   }
   j <- order(rocs)[1]     # identify the scales with the smallest "roc"
   opt.scale <- all.scales[j,  ]
@@ -42,4 +42,25 @@ pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.o
          opt.scale = opt.scale)
   else
     opt.scale
+}
+
+pamr.batchadjust <- function(data) {
+  if (is.null(data$batchlabels)) {
+    stop("batch labels are not in data object")
+  }
+  lab <- data$batchlabels
+  dd <- model.matrix( ~ factor(lab) - 1)
+  data$x <- data$x - misreg.simple(dd, data$x)
+  data
+}
+
+
+misreg.simple <- function(Y, x) {
+###Y is a indicator response matrix
+  nax <- is.na(x)
+  nsamples <- (!nax)%*%Y
+  x[nax] <- 0
+  xsum <- x%*%Y
+  xbar <- xsum/nsamples
+  xbar %*% t(Y)
 }

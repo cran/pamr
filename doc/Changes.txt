@@ -1,0 +1,12 @@
+Fixes in version 1.21. 
+	
+1. Fixed nsscv so that unclass is used instead of codes.
+
+2. Changed pamr.list genes so that it doesn't bomb on only one
+   significant gene list. Reported by Markus Ruschhaupt.
+
+3. Fixed pamr.confusion bug that screwed up individual plots. Reported
+   by Monica.
+
+4. Long standing request of Rob Gentleman---to add a namespace. I'd
+   always had this but now I am forcing Rob to do so as well.

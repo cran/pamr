@@ -20,9 +20,11 @@ function(fit, data, nfold = NULL, folds = NULL ,...)
         
         this.call <- match.call()
         
-# two possibilities, 
+# three possibilities, 
 # problem.type= class: y are class labels, proby=NULL
 #               surv.km: y=NULL, proby are soft class probabilities from KM
+#               surv.latent: y are latent class labels,
+#                   proby are soft class probabilities from KM
 # note; problem type is in fit$problem.type
         
         junk <- nsccv(x, y=y, proby=proby, object = fit, nfold=nfold, folds=folds, 

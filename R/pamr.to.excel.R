@@ -28,7 +28,7 @@ pamr.to.excel <- function(data, file, trace = TRUE) {
     if(trace) {
       cat(c("writing row number", i), fill = TRUE)
     }
-    xx <- paste(data$genenames[i], data$geneid[i], sep = "\t")
+    xx <- paste(data$gene.id[i], data$genenames[i],  sep = "\t")
     for(j in 1:ncol(data$x)) {
       xx <- paste(xx, data$x[i, j], sep = "\t")
     }

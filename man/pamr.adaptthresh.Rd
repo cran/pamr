@@ -6,7 +6,7 @@
   use in pamr.train}
 
 \usage{
-pamr.adaptthresh(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE, print=FALSE)
+pamr.adaptthresh(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE)
 }
 
 \arguments{
@@ -16,7 +16,6 @@ pamr.adaptthresh(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE, 
   \item{reduction.factor}{Amount by which a scaling is reduced in one
     step of the algorithm}
 \item{full.out}{Should full output be returned? Default FALSE}
-\item{print}{Should results be printed along the way? Default FALSE}
 }    
 
 

@@ -1,4 +1,4 @@
-nsccv <- function(x, y=NULL, proby=NULL, nfold = min(table(y)), folds = balanced.folds(y), threshold =
+nsccv <- function(x, y=NULL, proby=NULL, nfold = min(table(y)), folds = NULL, threshold =
         NULL, threshold.scale = NULL, survival.time=NULL, censoring.status=NULL, ngroup.survival=NULL,prior, object, ...)
 {
         this.call <- match.call()
@@ -16,10 +16,21 @@ nsccv <- function(x, y=NULL, proby=NULL, nfold = min(table(y)), folds = balanced
 if(is.null(nfold) & is.null(survival.time)) {nfold <- min(table(y))}
 if(is.null(nfold) & !is.null(survival.time)) {nfold <- 10}
 
+
+ if(is.null(survival.time)){
+        if(is.null(folds)) {
+                folds <-balanced.folds(y)
+        }
+        else nfold <- length(folds)
+}
+
+
+        if(!is.null(survival.time)){
         if(is.null(folds)) {
                 folds <- split(sample(1:n), rep(1:nfold, length = n))
         }
         else nfold <- length(folds)
+}
          
         if(missing(prior)) {
                 if(missing(object))

@@ -159,7 +159,7 @@ function(x, y, icens, fudge = 0)
 	scor <- coxscor(x, y, icens)$scor
 	sd <- sqrt(coxvar(x, y, icens))
 	tt <- scor/(sd + fudge)
-	return(list(tt=tt, numer = scor, sd=sd))
+	return(tt, numer = scor, sd)
 }
 "coxscor"<-
 function(x, y, ic, offset = rep(0, length(y)))
@@ -192,7 +192,7 @@ function(x, y, ic, offset = rep(0, length(y)))
 				i]
 		}
 	}
-	return(list(scor = w, coxstuff.obs = aa))
+	return(scor = w, coxstuff.obs = a)
 }
 "coxstuff"<-
 function(x, y, ic, offset = rep(0, length(y)))
@@ -218,7 +218,7 @@ function(x, y, ic, offset = rep(0, length(y)))
 	for(j in 1:nf) {
 		dd[(y == fail.times[j]) & (ic == 1)] <- d[j]
 	}
-	return(list(fail.times=fail.times, s=s, d=s, dd, nf, nn, nno))
+	return(fail.times, s, d, dd, nf, nn, nno)
 }
 "coxvar"<-
 function(x, y, ic, offset = rep(0, length(y)), coxstuff.obj = NULL)
@@ -276,7 +276,7 @@ cox.func2 <- function (x, y, icens, fudge=median(sd))
                 as.integer(icens), as.integer(nx), as.integer(n),
                 as.integer(nf), scor=double(length=nx),
                 sd=double(length=nx),
-                PACKAGE="ppc")
+                PACKAGE="pamr")
         scor <- junk$scor
         sd <- sqrt(junk$sd)
         tt <- scor/(sd + fudge)
