@@ -29,4 +29,6 @@ export(pamr.adaptthresh,
 	pamr.pvalue.survival, 
 	pamr.to.excel, 
 	pamr.train,
+        print.nsc,
+        print.nsccv,
 	pamr.test.errors.surv.compute)
