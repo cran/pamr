@@ -4,7 +4,7 @@ error.nsc <-function(object) {
   y <- object$y
   ny <- table(y)
   errors <- matrix(0, length(object$threshold), length(ny))
-  Y <- data.matrix(yhat) != codes(y)
+  Y <- data.matrix(yhat) != unclass(y)
   yind <- model.matrix( ~ factor(y) - 1, data = list(y = y))
   errors <- t(t(yind) %*% Y)
   apply(errors, 2, mean)

@@ -50,7 +50,7 @@ function(x, y, nfold = min(table(y)), folds = balanced.folds(y), threshold =
         loglik <- error
         for(i in 1:n.threshold) {
                 error[i] <- sum(yhat[, i] != y)/n
-                loglik[i] <- sum(log(prob[,  , i][cbind(seq(1, n), codes(y))]))/                        n
+                loglik[i] <- sum(log(prob[,  , i][cbind(seq(1, n), unclass(y))]))/                        n
         }
 obj<- list(threshold=threshold, error=error, loglik=loglik,size=size, yhat=yhat,y=y,prob=prob,folds=folds,
                 call = this.call)

@@ -2,7 +2,7 @@ pamr.train <-
 
 function(data, gene.subset=1:nrow(data$x), sample.subset=1:ncol(data$x),
          threshold = NULL, n.threshold = 30,
-        scale.sd = TRUE, threshold.scale = NULL, se.scale = NULL, offset.percent = 50,
+        scale.sd = TRUE, threshold.scale = NULL, se.scale = NULL, offset.percent = 50, hetero=NULL,
          prior = NULL,  remove.zeros = TRUE, sign.contrast="both")
 
 {
@@ -31,7 +31,7 @@ function(data, gene.subset=1:nrow(data$x), sample.subset=1:ncol(data$x),
                 print("Using classes `newy' from data object")
         }
         junk <- nsc(data$x[gene.subset, sample.subset], factor(y[sample.subset]), 
-          offset.percent=offset.percent,  threshold = threshold,
+          offset.percent=offset.percent,  threshold = threshold, hetero=hetero,
           n.threshold = n.threshold,  scale.sd= scale.sd, threshold.scale=threshold.scale,
            se.scale= se.scale, prior=prior, remove.zeros=remove.zeros,
             sign.contrast=sign.contrast)

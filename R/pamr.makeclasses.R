@@ -51,7 +51,7 @@ pamr.makeclasses <- function(data,  sort.by.class = FALSE, ...) {
     }
   }
   hc <- hclust(as.dist(dd), ...)
-  plot.hclust(hc, labels = labs)
+  plot(hc, labels = labs)
   aa <- vector("list", 100)
   go <- TRUE
   i <- 0
@@ -125,7 +125,7 @@ pamr.makeclasses <- function(data,  sort.by.class = FALSE, ...) {
   labs2 <- as.character(newy)
   labs2[labs2 == "NA"] <- ""
   par(col = 1, cex = 1)
-  plot.hclust(hc, labels = labs2)
+  plot(hc, labels = labs2)
   return(as.factor(newy))
 }
 

@@ -11,7 +11,7 @@
 pamr.train(data, gene.subset=1:nrow(data$x), sample.subset=1:ncol(data$x),
          threshold = NULL, n.threshold = 30, 
         scale.sd = T, threshold.scale = NULL, se.scale = NULL, offset.percent = 50,
-         prior = n.class/n, remove.zeros = T, sign.contrast="both")
+         hetero = NULL, prior = n.class/n, remove.zeros = T, sign.contrast="both")
 }
 
 \arguments{
