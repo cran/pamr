@@ -21,17 +21,17 @@ if(is.null(nfold) & !is.null(survival.time)) {nfold <- 10}
         if(is.null(folds)) {
                 folds <-balanced.folds(y)
         }
-        else nfold <- length(folds)
-}
+       }
 
 
         if(!is.null(survival.time)){
         if(is.null(folds)) {
                 folds <- split(sample(1:n), rep(1:nfold, length = n))
         }
-        else nfold <- length(folds)
-}
+        }
          
+nfold<- length(folds)
+
         if(missing(prior)) {
                 if(missing(object))
                         prior <- table(y)/n

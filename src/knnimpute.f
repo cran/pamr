@@ -1,5 +1,5 @@
       subroutine knnimp(x,ximp,p,n,imiss,irmiss,kn,workp,workn,iworkp,
-&     iworkn)
+     &iworkn)
       integer p,n,i,j,k,kn,m
       integer imiss(p,n),irmiss(p)
       double precision x(p,n),ximp(p,n)
@@ -123,9 +123,9 @@
 
 
       subroutine twomis(x,p,n,imiss,x0,imiss0,maxit,eps,istart,clust, 
-&     nsize,dist,ratio,iter,iworkp,iworkn)
+     &nsize,dist,ratio,iter,iworkp,iworkn)
       integer p,n,imiss(p,n),imiss0(n,2),maxit,istart(2),clust(p,2),
-&     iworkp(p)
+     &iworkp(p)
       double precision x(p,n),x0(n,2),eps,dist(p,2)
       integer nsize(2),iworkn(n)
       integer iter,imax
