@@ -17,9 +17,10 @@ pamr.predict <-  function(fit, newx, threshold, type = c("class", "posterior", "
   if(fit$sign.contrast=="negative"){delta <- delta*(delta<0)}
 
 
-  delta.shrunk <- scale(soft.shrink(delta, threshold), FALSE, 1/(
-                                                                 threshold.scale * se.scale))
-  posid <- drop(abs(delta.shrunk) %*% rep(1, length(prior))) > 0
+  delta.shrunk <- scale(soft.shrink(delta, threshold), FALSE,
+                        1/(  threshold.scale * se.scale))
+  posid <- drop(abs(delta.shrunk) %*% rep(1, length(prior)))
+                
   if(!match(type, c("centroid", "nonzero"), FALSE))
     dd <- diag.disc((newx - centroid.overall)/sd, delta.shrunk, 
                     prior, posid)

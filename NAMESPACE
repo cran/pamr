@@ -1,0 +1,30 @@
+useDynLib(pamr)
+
+#import(survival, cluster)
+
+export(pamr.adaptthresh, 
+	pamr.batchadjust, 
+	pamr.confusion, 
+	pamr.cv, 
+	pamr.from.excel, 
+	pamr.geneplot, 
+	pamr.knnimpute, 
+	pamr.knnimpute.old, 
+	pamr.listgenes,
+	pamr.makeclasses, 
+	pamr.menu, 
+	pamr.pairscore, 
+	pamr.plotcen, 
+	pamr.plotcvprob,
+	pamr.plotcv, 
+	pamr.plotstrata,
+        pamr.plotsurvival,
+	pamr.predictmany, 
+	pamr.predict, 
+	pamr.confusion.survival,
+	pamr.plotsurvival, 
+	pamr.pvalue.survival, 
+	pamr.surv.to.class2,
+	pamr.to.excel, 
+	pamr.train,
+	pamr.test.errors.surv.compute)

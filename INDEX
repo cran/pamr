@@ -23,12 +23,12 @@ pamr.menu               A function that interactively leads the user
 pamr.plotcen            A function to plot the shrunken class
                         centroids, from the nearest shrunken centroid
                         classifier
-pamr.plotcvprob         A function to plot the cross-validated sample
-                        probabilities from the nearest shrunken
-                        centroid classifier
 pamr.plotcv             A function to plot the cross-validated error
                         curves from the nearest shrunken centroid
                         classifier
+pamr.plotcvprob         A function to plot the cross-validated sample
+                        probabilities from the nearest shrunken
+                        centroid classifier
 pamr.predict            A function producing predicted information,
                         from a nearest shrunken centroid fit.
 pamr.to.excel           A function to write out a data object into a

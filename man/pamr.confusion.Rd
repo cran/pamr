@@ -1,35 +1,35 @@
 \name{pamr.confusion}
 \alias{pamr.confusion}
-    \title{ A function giving a table of true versus predicted values,
- from a nearest shrunken centroid fit.}
+\title{ A function giving a table of true versus predicted values,
+  from a nearest shrunken centroid fit.}
 \description{ A function giving a table of true versus predicted values,
- from a nearest shrunken centroid fit.}
-   
-}
+  from a nearest shrunken centroid fit.}
+
 \usage{
 pamr.confusion(fit, threshold, extra=TRUE)
 }
 
 \arguments{
-    
-\item{fit}{The result of a call to pamr.train or pamr.cv}
-\item{threshold}{The desired threshold value}
-\item{extra}{If TRUE, class confusion rates are also computed}
-
-    
+  
+  \item{fit}{The result of a call to pamr.train or pamr.cv}
+  \item{threshold}{The desired threshold value}
+\item{extra}{Should the  classwise and overall error rates be returned?
+Default TRUE}
+  
+  
 }    
-    
+
 \details{
-    \code{pamr.confusion} Gives a cross-tabulation of true versus
-    predicted classes for the fit returned by pamr.train or pamr.cv,
-    at the specified threshold.
+  \code{pamr.confusion} Gives a cross-tabulation of true versus
+  predicted classes for the fit returned by pamr.train or pamr.cv,
+  at the specified threshold.
 }
 
 
-   \references{}
+\references{}
 
-   
- 
+
+
 
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 

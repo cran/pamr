@@ -1,26 +1,65 @@
-nsc <-function(x, y, xtest = x, ytest = NULL, threshold = NULL, n.threshold = 30, 
-        hetero=NULL,
-        scale.sd = TRUE, threshold.scale = NULL, se.scale = NULL, offset.percent=50, prior = table(y)/length(y), remove.zeros = TRUE, sign.contrast="both")
+nsc <-
+  
+  function(x, y = NULL, xtest = NULL, proby = NULL, ytest = NULL, prob.ytest = 
+        NULL, threshold = NULL, n.threshold = 30, hetero = NULL, scale.sd = 
+        TRUE, threshold.scale = NULL, se.scale = NULL, offset.percent = 50, 
+        prior = table(y)/length(y), remove.zeros = TRUE, sign.contrast = "both",
+           problem.type=c("class", "surv.km"))
 {
+
+# modified aug 2003 to add survival analysis facilities
+#
+#         problem.type can be "class", "surv.km"  
+#
+#         y= class variable => classification problem (problem.type="class")
+#         proby= matrix of class probabilities => "soft classification"
+#               from Kaplan-Meier estimate, for survival analysis
+#         in this case, nsc computes probability-weighted centroids and
+#             training error 
+
         this.call <- match.call()
 
-        n.class <- table(y)
-if(min(n.class)==1){stop("Error: each class must have >1 sample")}
-
-        norm.cent <-NULL
-        if(!is.null(hetero)){
-           norm.cent <-apply(x[,y==hetero],1,mean)
-           x <-abs(t(scale(t(x),center=norm.cent,scale=FALSE)))
-          if(!missing(xtest)){xtest <-abs(t(scale(t(xtest),center=norm.cent,scale=FALSE)))}
+        argy <- ytest
+        if(is.null(ytest)) {
+                argy <- y
         }
-
+        if(!is.null(y) & !is.null(proby)) {
+                stop("Can't specify both y and proby")
+        }
+        if(!is.null(ytest) & !is.null(prob.ytest)) {
+                stop("Can't specify both ytest and prob.ytest")
+        }
+        if(is.null(y)) {
+                y <- apply(proby, 1, which.is.max)
+        }
+        n.class <- table(y)
+        if(min(n.class) == 1) {
+                stop("Error: each class must have >1 sample")
+        }
+        if(is.null(xtest)) {
+                xtest <- x
+                ytest <- y
+                prob.ytest <- proby
+        }
+        norm.cent <- NULL
+        if(!is.null(hetero)) {
+                norm.cent <- apply(x[, y == hetero], 1, mean)
+                x <- abs(t(scale(t(x), center = norm.cent, scale = FALSE)))
+                if(!missing(xtest)) {
+                        xtest <- abs(t(scale(t(xtest), center = norm.cent, 
+                                scale = FALSE)))
+                }
+        }
         n <- sum(n.class)
         ntest <- ncol(xtest)
         K <- length(prior)
         p <- nrow(x)
-        if(missing(xtest))
-                ytest <- y
-        Y <- model.matrix( ~ factor(y) - 1, data = list(y = y))
+        if(is.null(proby)) {
+                Y <- model.matrix( ~ factor(y) - 1, data = list(y = y))
+        }
+        if(!is.null(proby)) {
+                Y <- proby
+        }
         dimnames(Y) <- list(NULL, names(n.class))
         centroids <- scale(x %*% Y, FALSE, n.class)
         sd <- rep(1, p)
@@ -28,7 +67,7 @@ if(min(n.class)==1){stop("Error: each class must have >1 sample")}
                 xdif <- x - centroids %*% t(Y)
                 sd <- (xdif^2) %*% rep(1/(n - K), n)
                 sd <- drop(sqrt(sd))
-                offset  <- quantile(sd, offset.percent/100)
+                offset <- quantile(sd, offset.percent/100)
                 sd <- sd + offset
         }
         centroid.overall <- drop(x %*% rep(1/n, n))
@@ -40,14 +79,14 @@ if(min(n.class)==1){stop("Error: each class must have >1 sample")}
         if(is.null(se.scale))
                 se.scale <- sqrt(1/n.class - 1/n)
         delta <- (centroids - centroid.overall)/sd
-        delta <- scale(delta, FALSE, threshold.scale * se.scale)    
-
- if(sign.contrast=="positive"){delta <- delta*(delta>0)}
-  if(sign.contrast=="negative"){delta <- delta*(delta<0)}
-
-
-
-        #allows differential shrinkage
+        delta <- scale(delta, FALSE, threshold.scale * se.scale)
+        if(sign.contrast == "positive") {
+                delta <- delta * (delta > 0)
+        }
+        if(sign.contrast == "negative") {
+                delta <- delta * (delta < 0)
+        }
+#allows differential shrinkage
         if(!is.null(threshold)) {
                 n.threshold <- length(threshold)
         }
@@ -73,6 +112,18 @@ if(min(n.class)==1){stop("Error: each class must have >1 sample")}
                 if(!is.null(ytest)) {
                         errors[ii] <- sum(yhat[[ii]] != ytest)
                 }
+                if(!is.null(prob.ytest)) {
+
+# use of temp below is to ensure that Yhat doesn;t drop a column
+#  when no predictions are made to that class
+                        temp <- c(yhat[[ii]], names(table(y)))
+                        Yhat <- model.matrix( ~ factor(temp) - 1, data = list(y
+                                 = temp))
+                        Yhat <- Yhat[1:length(yhat[[ii]]),  ]
+                     
+                        errors[ii] <- length(yhat[[ii]]) - sum(Yhat * prob.ytest)
+                }
+               
         }
         thresh.names <- format(round(threshold, 3))
         names(yhat) <- thresh.names
@@ -81,14 +132,17 @@ if(min(n.class)==1){stop("Error: each class must have >1 sample")}
         if(remove.zeros)
                 n.threshold <- match(0, nonzero, n.threshold)
         dimnames(prob) <- list(paste(seq(ntest)), names(n.class), thresh.names)
-        object <- list(y = ytest, yhat = yhat[, seq(n.threshold)], prob = 
-                       prob[,  , seq(n.threshold)], centroids=centroids, centroid.overall=centroid.overall, sd=sd, 
-                       threshold = threshold[seq(n.threshold)], nonzero = nonzero[seq(
-                n.threshold)], threshold.scale=threshold.scale, se.scale=se.scale, call = this.call, hetero=hetero,
-                       norm.cent=norm.cent,
-                prior=prior, offset=offset, sign.contrast=sign.contrast)
-        if(!is.null(ytest))
+        object <- list(y = argy, proby = prob.ytest, yhat = yhat[, seq(
+                n.threshold)], prob = prob[,  , seq(n.threshold)], centroids = 
+                centroids, centroid.overall = centroid.overall, sd = sd, 
+                threshold = threshold[seq(n.threshold)], nonzero = nonzero[seq(
+                n.threshold)], threshold.scale = threshold.scale, se.scale = 
+                se.scale, call = this.call, hetero = hetero, norm.cent = 
+                norm.cent, prior = prior, offset = offset, sign.contrast = 
+                sign.contrast)
+        if(!is.null(ytest) | !is.null(prob.ytest))
                 object$errors <- errors[seq(n.threshold)]
         class(object) <- "nsc"
         object
 }
+

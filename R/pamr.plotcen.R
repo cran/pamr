@@ -4,7 +4,12 @@ pamr.plotcen <- function(fit, data, threshold) {
   clabs <- colnames(fit$centroids)
   scen <- pamr.predict(fit, data$x, threshold = threshold, type = "cent")
   dif <- (scen - fit$centroid.overall)/fit$sd
-  nc <- length(unique(fit$y))
+  if(!is.null(fit$y)){
+       nc <- length(unique(fit$y))
+  }
+   if(is.null(fit$y)){
+      nc <- ncol(fit$proby)
+}
   o <- drop(abs(dif) %*% rep(1, nc)) > 0
   d <- dif[o,  ]
   nd <- sum(o)
