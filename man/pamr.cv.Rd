@@ -42,6 +42,7 @@ pamr.cv(fit, data,  nfold = NULL, folds = NULL,...)
     cross-validated
     class probabilities for each threshold value,  in each column}
   \item{folds}{ The cross-validation folds used}
+  \item{cv.objects}{Train objects (output of pamr.train),  from each of the CV folds}
   \item{call}{The calling sequence used}
   
 }

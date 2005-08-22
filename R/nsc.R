@@ -34,7 +34,7 @@ nsc <-
         }
         n.class <- table(y)
         if(min(n.class) == 1) {
-                stop("Error: each class must have >1 sample")
+                cat("Warning: a class contains only 1 sample")
         }
         if(is.null(xtest)) {
                 xtest <- x
@@ -61,6 +61,7 @@ nsc <-
                 Y <- proby
         }
         dimnames(Y) <- list(NULL, names(n.class))
+
         centroids <- scale(x %*% Y, FALSE, n.class)
         sd <- rep(1, p)
         if(scale.sd) {
@@ -76,6 +77,7 @@ nsc <-
                 names(threshold.scale) <- names(n.class)
         }
 ### Now make an adjustment for the sample sizes in the "t" ratios
+
         if(is.null(se.scale))
                 se.scale <- sqrt(1/n.class - 1/n)
         delta <- (centroids - centroid.overall)/sd
@@ -107,7 +109,7 @@ nsc <-
                 dd <- diag.disc((xtest - centroid.overall)/sd, delta.shrunk, 
                         prior, weight = posid)
                 yhat[[ii]] <- softmax(dd)
-                dd <- exp(dd)
+                dd <- safe.exp(dd)
                 prob[,  , ii] <- dd/drop(dd %*% rep(1, K))
                 if(!is.null(ytest)) {
                         errors[ii] <- sum(yhat[[ii]] != ytest)
@@ -146,3 +148,8 @@ nsc <-
         object
 }
 
+
+safe.exp=function(x){
+ xx=sign(x)*pmin(abs(x),500)
+ return(exp(xx))
+}

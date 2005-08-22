@@ -1,3 +1,50 @@
+pamr.options <- list(debug=TRUE, #whether to turn on debugging or not
+                     err.file=ifelse(.Platform$OS.type=="windows", "C:/pamrtrace.txt", "pamrtrace.txt"),
+                     image.file=ifelse(.Platform$OS.type=="windows", "C:/pamrimage.Rdata", "pamrimage.Rdata"),                     
+                     reserved.class.label="Unspecified")
+
+##
+## Our error handler
+##
+pamr.xl.error.trace <- function() {
+  err.message <- geterrmessage()
+  if (!is.null(pamr.options$image.file)) {
+    save.image(pamr.options$image.file)
+  }
+  if (!is.null(pamr.options$err.file)) {
+    sink(pamr.options$err.file)
+    print(err.message)
+    traceback()
+    sink()
+  }
+  winDialog(type="ok", message=err.message)
+}
+
+##
+## Upon loading, if we are in a windows environment, we use the windows
+## dialog mechanism to display errors. Useful for debugging COM apps
+##
+.onLoad <- function(lib, pkg) {
+
+# Rob changed this next line on  apr 10, 2005, requested by Uwe Ligges
+
+#  if ( .Platform$OS.type == "windows"  ) {
+  if ( .Platform$OS.type == "windows" && interactive() ) {
+    options(error=pamr.xl.error.trace)
+  }
+
+}
+
+##
+## Upon unload, we set things back the way they were...
+##
+.onUnload <- function(libpath){
+  if ( .Platform$OS.type == "windows") {
+    options(error=NULL)
+  }
+}
+
+
 pamr.xl.get.threshold.range  <- function(fit) {
   return(range(fit$threshold))
 }
@@ -65,23 +112,61 @@ pamr.xl.derive.adjusted.prior  <- function(prior, data) {
   }
 }
 
+#pamr.xl.get.default.training.parameters <- function(data) {
+#  if (pamr.xl.survival.setting) {
+#    return (list(offset.percent=50,
+#                 prior=pamr.xl.get.uniform.prior(data, nclasses=2),
+#                 prior.name="Uniform Prior",
+#                 sign.contrast="both",
+#                 epsilon=1e-7,
+#                 ngroup.survival=2,
+#                 survival.method="Kaplan Meier"))
+#  } else {
+#    return (list(offset.percent=50,
+#                 prior=pamr.xl.get.sample.prior(data),
+#                 prior.name="Sample Prior",
+#                 sign.contrast="both",
+#                 epsilon=1e-7,
+#                 ngroup.survival=2,
+#                 survival.method="Kaplan Meier"))
+#  }
+#}
+
+
+
 pamr.xl.get.default.training.parameters <- function(data) {
   if (pamr.xl.survival.setting) {
-    return (list(offset.percent=50,
-                 prior=pamr.xl.get.uniform.prior(data, nclasses=2),
-                 prior.name="Uniform Prior",
+    return (list(offset.proportion=0.5,
+                 offset.percent=50,
+                 prior=NULL,
+                 prior.name=NULL,
                  sign.contrast="both",
                  epsilon=1e-7,
                  ngroup.survival=2,
-                 survival.method="Kaplan Meier"))
-  } else {
+                 decorrelate=FALSE,
+                 n.components=1))
+                }
+ if (pamr.xl.regression.setting) {
+
+    return (list(offset.proportion=0.5,
+                offset.percent=50,
+                 prior=NULL,
+                 prior.name=NULL,
+                 sign.contrast="both",
+                 epsilon=1e-7,
+                 ngroup.survival=NULL,
+                 decorrelate=FALSE,
+                 n.components=1))
+ }
+if(!pamr.xl.survival.setting & !pamr.xl.regression.setting){
     return (list(offset.percent=50,
                  prior=pamr.xl.get.sample.prior(data),
                  prior.name="Sample Prior",
                  sign.contrast="both",
                  epsilon=1e-7,
-                 ngroup.survival=2,
-                 survival.method="Kaplan Meier"))
+                 ngroup.survival=NULL,
+                 n.components=NULL))
+                 
   }
 }
 
@@ -110,13 +195,20 @@ pamr.xl.get.class.names  <- function() {
   }
 }
 
+
+
+#pamr.xl.get.class.labels  <- function() {
+#  if (pamr.xl.survival.setting) {
+#    return(rep(" ", length(pamr.xl.survival.times)))
+#  } else {
+#    return(pamr.xl.data$y)
+#  }
+#}
+
 pamr.xl.get.class.labels  <- function() {
-  if (pamr.xl.survival.setting) {
-    return(rep(" ", length(pamr.xl.survival.times)))
-  } else {
     return(pamr.xl.data$y)
-  }
 }
+
 
 pamr.xl.get.number.of.classes  <- function() {
   if (pamr.xl.survival.setting) {
@@ -126,21 +218,51 @@ pamr.xl.get.number.of.classes  <- function() {
   }
 }
 
+#pamr.xl.process.data <- function(use.old.version=FALSE) {
+#
+#  res <- list(x=pamr.xl.raw.data, y=pamr.xl.class.labels, genenames=pamr.xl.gene.names, 
+#              geneid=pamr.xl.gene.ids, samplelabels=pamr.xl.sample.labels,
+#              batchlabels=pamr.xl.batch.labels, survival.time=pamr.xl.survival.times,
+#              censoring.status=pamr.xl.censoring.status)
+#  
+#  if (pamr.xl.data.has.missing.values) {
+#    if (use.old.version) {
+#      res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)      
+#    } else {
+#      res <- pamr.knnimpute(res, k = pamr.xl.knn.neighbors)
+#    }
+#  }
+#  return(res)
+#}
+
 pamr.xl.process.data <- function(use.old.version=FALSE) {
-  res <- list(x=pamr.xl.raw.data, y=pamr.xl.class.labels, genenames=pamr.xl.gene.names, 
+
+# in this new version, the outcome is always stored in y
+# the survival times component  is no longer used. Superpc now handles
+# both the surival and regression problems
+
+ if(!is.null(pamr.xl.class.labels)){
+    y=pamr.xl.class.labels
+   }
+  if(is.null(pamr.xl.class.labels)){
+    y=pamr.xl.survival.times
+   }
+
+  res <- list(x=pamr.xl.raw.data, y=y, genenames=pamr.xl.gene.names,
               geneid=pamr.xl.gene.ids, samplelabels=pamr.xl.sample.labels,
-              batchlabels=pamr.xl.batch.labels, survival.time=pamr.xl.survival.times,
+              batchlabels=pamr.xl.batch.labels, 
               censoring.status=pamr.xl.censoring.status)
   
   if (pamr.xl.data.has.missing.values) {
     if (use.old.version) {
-      res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)      
+      res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)
     } else {
       res <- pamr.knnimpute(res, k = pamr.xl.knn.neighbors)
     }
   }
   return(res)
-}
+}   
+
 
 pamr.xl.compute.cv.confusion  <- function (fit, cv.results, threshold) {
   threshold.rank  <- which(rank(abs(cv.results$threshold - threshold))==1)
@@ -199,7 +321,7 @@ pamr.xl.is.a.subset  <- function(a, y) {
   }
 }
 
-pamr.xl.listgenes.compute  <- function (fit, data, threshold, genenames = FALSE) {
+pamr.xl.listgenes.compute  <- function (fit, data, threshold, fitcv=NULL,  genenames = FALSE) {
   x <- data$x[fit$gene.subset, fit$sample.subset]
   if (genenames) {
     gnames <- data$genenames[fit$gene.subset]
@@ -220,7 +342,7 @@ pamr.xl.listgenes.compute  <- function (fit, data, threshold, genenames = FALSE)
   cen <- pamr.predict(fit, x, threshold = threshold, type = "cen")
   d <- (cen - fit$centroid.overall)[aa, ]/fit$sd[aa]
   
-  oo <- order(-apply(abs(d), 1, max))
+  gene.order <- order(-apply(abs(d), 1, max))
   d <- round(d, 4)
   g <- gnames[aa]
   g1 <- geneid[aa]
@@ -230,10 +352,42 @@ pamr.xl.listgenes.compute  <- function (fit, data, threshold, genenames = FALSE)
   if (!is.null(gnames)) {
     gnhdr <- "name"
   }
+
+if(!is.null(fitcv)){
+nfold=length(fitcv$cv.objects)
+
+ind=matrix(F,nrow=nrow(x),ncol=nfold)
+ranks=NULL
+for( ii in 1:nfold){
+        cen=pamr.predict(fitcv$cv.objects[[ii]], x[,-fitcv$folds[[ii]]],threshold=0, type="centroid")
+         dtemp <- (cen - fitcv$cv.objects[[ii]]$centroid.overall)[,, drop=FALSE]/fitcv$cv.objects[[ii]]$sd
+          r <- apply(abs(dtemp), 1, max)
+        ranks=cbind(ranks,rank(-abs(r)))
+
+        junk=pamr.predict(fitcv$cv.objects[[ii]], x[,-fitcv$folds[[ii]]],threshold=threshold, type="nonzero")
+        ind[junk,ii]=T
+}
+
+av.rank=apply(ranks,1,mean)
+av.rank=round(av.rank[aa],2)
+prop=apply(ind[aa,,drop=F],1,sum)/nfold
+}
+
   options(width = 500)
   schdr <- paste(clabs, "score", sep = " ")
-  res <- cbind(as.character(g1), g, d)[oo, ]
+
+
+if(is.null(fitcv)){
+res <- cbind(as.character(g1), g, d)[gene.order, ]
   dimnames(res) <- list(NULL, c("id", gnhdr, schdr))
+
+}
+if(!is.null(fitcv)){
+  res <- cbind(as.character(g1), g, d, av.rank, prop)[gene.order, ]
+  dimnames(res) <- list(NULL, c("id", gnhdr, schdr, "av-rank-in-CV", "prop-selected-in-CV"))
+}
+
+
   return(list(gene.headings = dimnames(res)[[2]],
               gene.ids = res[ , 2],   # This was switched with gene.names.
               gene.names = res[ , 1],

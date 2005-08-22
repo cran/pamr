@@ -27,7 +27,7 @@ pamr.predict <-  function(fit, newx, threshold, type = c("class", "posterior", "
   switch(type,
          class = softmax(dd),
          posterior = {
-           dd <- exp(dd)
+           dd <- safe.exp(dd)
            dd/drop(dd %*% rep(1, length(prior)))
          }
          ,
@@ -38,5 +38,10 @@ pamr.predict <-  function(fit, newx, threshold, type = c("class", "posterior", "
            seq(nz)[nz]
          }
          )
+}
+
+safe.exp=function(x){
+ xx=sign(x)*pmin(abs(x),500)
+ return(exp(xx))
 }
 

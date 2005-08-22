@@ -57,6 +57,7 @@ nfold<- length(folds)
         prob <- array(1, c(n, length(n.class), n.threshold))
         size <- double(n.threshold)
         hetero <-object$hetero
+        cv.objects=vector("list",nfold)
         for(ii in 1:nfold) {
                 cat("Fold", ii, ":")
                 a <- nsc(x[,  - folds[[ii]]], y=argy[ - folds[[ii]]], x[, folds[[ii
@@ -69,6 +70,7 @@ nfold<- length(folds)
                 prob[folds[[ii]],  ,  ] <- a$prob
                 yhat[folds[[ii]],  ] <- a$yhat
                 cat("\n")
+        cv.objects[[ii]]=a
         }
         if(missing(object))
                 size <- round(size/nfold)
@@ -109,7 +111,7 @@ nfold<- length(folds)
                 }
         }
 
-obj<- list(threshold=threshold, error=error, loglik=loglik,size=size, yhat=yhat,y=y,prob=prob,folds=folds, pvalue.survival=pvalue.survival,
+obj<- list(threshold=threshold, error=error, loglik=loglik,size=size, yhat=yhat,y=y,prob=prob,folds=folds, cv.objects=cv.objects, pvalue.survival=pvalue.survival,
                 call = this.call)
         class(obj) <- "nsccv"
         obj

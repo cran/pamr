@@ -7,7 +7,7 @@
 
 }
 \usage{
-pamr.listgenes(fit, data,  threshold, genenames=FALSE)
+pamr.listgenes(fit, data,  threshold, fitcv=NULL, genenames=FALSE)
 }
 
 \arguments{
@@ -16,6 +16,7 @@ pamr.listgenes(fit, data,  threshold, genenames=FALSE)
     pamr.train}
   
   \item{threshold}{The desired threshold value}
+\item{fitcv}{Optional object, result of a call to pamr.cv}
   \item{genenames}{Include genenames in the list? If yes, they
     are taken from "data". Default is false (geneid is always included
     in the list).}
@@ -24,6 +25,10 @@ pamr.listgenes(fit, data,  threshold, genenames=FALSE)
 \details{
   \code{pamr.listgenes} List the geneids, and standardized centroids for
   each class, for genes surviving at the given threshold.
+If fitcv is provided, the function also reports
+the average rank of the gene in the
+cross-validation folds, and the proportion of times  that the gene is chosen
+(at the given threshold) in the cross-validation folds.
 }
 
 

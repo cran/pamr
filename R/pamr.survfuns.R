@@ -13,6 +13,7 @@ pamr.score.to.class2 <- function (x, scores, cutoff=2, n.pc=1, n.class=2)
         return(out)
 }
 
+
 pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens) 
 # Splits patients into classes based on their survival times
 # The user can either specify the number of classes or the survival
@@ -122,6 +123,7 @@ get.mle.class <- function(y.row)
 	}
 	else return(i)
 }
+
 kmeans2 <- function(x, ..., n.rep=10) 
 # Performs k-means clustering multiple times from different starting
 # points
@@ -188,7 +190,7 @@ function(x, y, ic, offset = rep(0, length(y)))
 	for(i in (1:nf)) {
 		w <- w + s[, i]
 		for(j in (1:n)[y >= fail.times[i]]) {
-			w <- w - (d[i] * x[, j, drop = F] * exp(offset[j]))/nno[
+			w <- w - (d[i] * x[, j, drop = F] * safe.exp(offset[j]))/nno[
 				i]
 		}
 	}
@@ -204,7 +206,7 @@ function(x, y, ic, offset = rep(0, length(y)))
 	nno <- rep(0, nf)
 	for(i in 1:nf) {
 		nn[i] <- sum(y >= fail.times[i])
-		nno[i] <- sum(exp(offset)[y >= fail.times[i]])
+		nno[i] <- sum(safe.exp(offset)[y >= fail.times[i]])
 	}
 	s <- matrix(0, ncol = nf, nrow = nrow(x))
 	d <- rep(0, nf)
@@ -249,10 +251,10 @@ function(x, y, ic, offset = rep(0, length(y)), coxstuff.obj = NULL)
 		s <- rep(0, nx)
 		ii <- (1:n)[y >= fail.times[i]]
 		for(j in ii) {
-			sx <- sx + (x[, j] * exp(offset[j]))/nno[i]
+			sx <- sx + (x[, j] * safe.exp(offset[j]))/nno[i]
 		}
 		for(j in ii) {
-			s <- s + (x[, j]^2 * exp(offset[j]))/nno[i]
+			s <- s + (x[, j]^2 * safe.exp(offset[j]))/nno[i]
 		}
 		w <- w + d[i] * (s - sx * sx)
 	}
@@ -389,5 +391,10 @@ pamr.test.errors.surv.compute <- function(proby, yhat) {
   dimnames(tt)[[2]][ncol(tt)] <- "Class Error rate"
   error <- sum(tt1)/sum(tt)
   return(list(confusion=tt,error=error))
+}
+
+safe.exp=function(x){
+ xx=sign(x)*pmin(abs(x),500)
+ return(exp(xx))
 }
 

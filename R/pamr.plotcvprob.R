@@ -22,7 +22,7 @@ pamr.plotcvprob <- function(fit, data, threshold) {
   plot(1:n, ppp[, 2], type = "n", xlab = "sample", ylab = 
        "cross-validated probabilities", ylim = c(0, 1.2), axes = FALSE)
   axis(1)
-  axis(2, labels = c("0.0", "0.2", "0.4", "0.6", "0.8", "1.0", ""))
+  axis(2, at=seq(0, 1.2, by=0.2), labels = c("0.0", "0.2", "0.4", "0.6", "0.8", "1.0", ""))
   axis(4)
   for(j in 1:nc) {
     points(1:n, ppp[, j], col = j + 1)
