@@ -8,7 +8,8 @@
 \alias{pamr.score.to.class2}
 \alias{print.nsc}
 \alias{print.nsccv}
-
+\alias{print.pamrcved}
+\alias{print.pamrtrained}
 \alias{pamr.xl.compute.offset}
 \alias{pamr.xl.error.trace}
 \alias{pamr.xl.get.offset}
@@ -56,6 +57,8 @@ pamr.knnimpute.old(data, k = 10)
 pamr.cube.root(x)
 print.nsc(x, ...)
 print.nsccv(x, ...)
+print.pamrtrained(x, ...)
+print.pamrcved(x, ...)
 pamr.xl.error.trace() 
 pamr.xl.get.threshold.range(fit) 
 pamr.xl.get.soft.class.labels(fit, survival.times, censoring.status) 

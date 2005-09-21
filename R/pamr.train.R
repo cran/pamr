@@ -104,5 +104,6 @@ function(data, gene.subset=NULL, sample.subset=NULL,
        junk$cutoffs.survival <- cutoffs.survival
         junk$ngroup.survival <- ngroup.survival
         junk$problem.type <- problem.type
-        return(junk)
+        class(junk)="pamrtrained"
+        junk
 }

@@ -34,6 +34,7 @@ ngroup.survival=fit$ngroup.survival, problem.type=fit$problem.type, ...)
         junk$call <- this.call
         
         junk$sample.subset <- fit$sample.subset
-        return(junk)
+        class(junk)="pamrcved"
+        junk
 }
 

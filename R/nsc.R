@@ -139,7 +139,7 @@ nsc <-
                 centroids, centroid.overall = centroid.overall, sd = sd, 
                 threshold = threshold[seq(n.threshold)], nonzero = nonzero[seq(
                 n.threshold)], threshold.scale = threshold.scale, se.scale = 
-                se.scale, call = this.call, hetero = hetero, norm.cent = 
+                se.scale, scale.sd=scale.sd, call = this.call, hetero = hetero, norm.cent = 
                 norm.cent, prior = prior, offset = offset, sign.contrast = 
                 sign.contrast)
         if(!is.null(ytest) | !is.null(prob.ytest))
