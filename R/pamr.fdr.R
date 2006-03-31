@@ -76,7 +76,9 @@ fdr90=rep(NA,n.threshold)
 ngenes=rep(NA,n.threshold)
 
 for(j in 1:n.threshold){
-  nobs=sum( (abs(tt)-threshold[j])%*%rep(1,ncol(tt)) >0)
+ # nobs=sum( (abs(tt)-threshold[j])%*%rep(1,ncol(tt)) >0)
+ nobs=sum(drop((abs(tt)-threshold[j] > 0) %*% rep(1, ncol(tt))) > 0)
+
  temp=abs(ttstar)-threshold[j] >0
  temp2=rowSums(temp, dim=2)
  nnull=colSums(temp2>0)
@@ -104,7 +106,8 @@ results=results[!om,]
  dimnames(results) <- list(NULL,c("Threshold", "Number of significant genes", "Median number of null genes",
 "Median FDR", "90th percentile of FDR"))
 # last time through, delete the temp stuff that is used just by Excel interface
-y=NULL;x=NULL;m=NULL;threshold=NULL;n.threshold=NULL;tt=NULL;nperms=NULL;ttstar=NULL
+y=NULL;x=NULL;m=NULL;threshold=NULL;n.threshold=NULL;tt=NULL;nperms=NULL;
+ttstar=NULL
 }
 
   return(list(results=results,pi0=pi0, y=y,m=m,threshold=threshold,n.threshold=n.threshold, tt=tt,ttstar=ttstar, nperms=nperms))
