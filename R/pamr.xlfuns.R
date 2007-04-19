@@ -81,7 +81,7 @@ pamr.xl.compute.offset <- function(data, offset.percent=50, prior=prior){
 
 pamr.xl.get.offset  <- function() {
   if (exists("x.train")) {
-    return (x.train$offset)
+    return (x.train$s0)
   } else {
     return (pamr.xl.compute.offset(pamr.xl.data,
                                    offset.percent=pamr.xl.training.parameters$offset.percent,

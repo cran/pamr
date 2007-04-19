@@ -260,30 +260,6 @@ function(x, y, ic, offset = rep(0, length(y)), coxstuff.obj = NULL)
 	}
 	return(w)
 }
-cox.func2 <- function (x, y, icens, fudge=median(sd)) 
-# A faster version of cox.func.  Requires an external C function.
-{
-        if (!is.loaded("cox_func")) {
-                dyn.load("/home/tibs/pamr/surv/cox_func.so")
-        }
-        n <- length(y)
-        nx <- nrow(x)
-        nf <- length(unique(y[icens==1]))
-        yy <- y + (icens==0) * (1.0000000000000001e-05)
-        otag <- order(yy)
-        y <- y[otag]
-        icens <- icens[otag]
-        x <- x[, otag, drop=F]
-        junk <- .C("cox_func", as.double(x), as.double(y),
-                as.integer(icens), as.integer(nx), as.integer(n),
-                as.integer(nf), scor=double(length=nx),
-                sd=double(length=nx),
-                PACKAGE="pamr")
-        scor <- junk$scor
-        sd <- sqrt(junk$sd)
-        tt <- scor/(sd + fudge)
-        return(list(tt=tt, numer=scor, sd=sd))
-}
 pamr.confusion.survival <-
   
  function(fit, survival.time,censoring.status, yhat){

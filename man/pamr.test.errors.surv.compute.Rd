@@ -51,7 +51,7 @@ ic<-junk$ic
 x<-junk$x
 d <- list(x=x,survival.time=y, censoring.status=ic, 
 geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
-""),)
+""))
 
 # train model
 a3<- pamr.train(d, ngroup.survival=2)
