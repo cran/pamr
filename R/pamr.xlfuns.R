@@ -81,7 +81,7 @@ pamr.xl.compute.offset <- function(data, offset.percent=50, prior=prior){
 
 pamr.xl.get.offset  <- function() {
   if (exists("x.train")) {
-    return (x.train$s0)
+    return (x.train$offset)
   } else {
     return (pamr.xl.compute.offset(pamr.xl.data,
                                    offset.percent=pamr.xl.training.parameters$offset.percent,
@@ -626,7 +626,7 @@ pamr.xl.test.errors.surv.compute <- function(fit, newx, threshold=fit$threshold,
     w  <- pamr.test.errors.surv.compute(soft.probs, predicted)
     prediction.errs[i]  <- w$error
   }
-  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error", ))  
+  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error"))  
 }
 
 
@@ -644,7 +644,7 @@ pamr.xl.test.errors.compute  <- function(fit, newx, newx.classes, threshold=fit$
     prediction.errs[i]  <- length(which(t != actual.classes)) / n
   }
   
-  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error", ))
+  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error"))
   
 }
 
