@@ -5,7 +5,7 @@
 \description{A function giving prediction information,
   from a nearest shrunken centroid fit}
 
-}
+
 \usage{
 pamr.predict(fit, newx, threshold, type= c("class", "posterior", "centroid", "nonzero"), prior = fit$prior, threshold.scale = fit$threshold.scale)
 }

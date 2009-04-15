@@ -25,12 +25,11 @@ ngroup.survival = 2)
   \item{gene.subset}{Subset of genes to be used.  Can be either
     a logical vector of length total number of genes, or a list
     of integers of the row numbers of the genes to be used}
-  \item{sample.subset} {Subset of samples to be used.  Can be either
+  \item{sample.subset}{Subset of samples to be used.  Can be either
     a logical vector of length total number of samples, or a list
     of integers of the column numbers of the samples to be used.}
   \item{threshold}{A vector of threshold values for the centroid
-    shrinkage.
-    Default is a set of 30 values chosen by the software}
+    shrinkage.Default is a set of 30 values chosen by the software}
   \item{n.threshold}{Number of threshold values desired (default 30)}
   \item{scale.sd}{Scale each threshold by the wthin class standard
     deviations? Default: true}
@@ -93,10 +92,10 @@ is then taken to be  n.class/n,
     nclass}
   \item{hetero}{Value of hetero used in call to pamr.train}
   \item{norm.cent}{Centroid of "normal" group, if hetero was specified}
-  \item{centroid.overall} {A vector containing the (unshrunken) overall
+  \item{centroid.overall}{A vector containing the (unshrunken) overall
     centroid (all classes together)}
   \item{sd}{A vector of the standard deviations for each gene}
-  \item{threshold} {A vector of the threshold tried in the shrinkage}
+  \item{threshold}{A vector of the threshold tried in the shrinkage}
   \item{nonzero}{A vector of the number of genes that survived the
     thresholding, for each threshold value tried}
   \item{threshold.scale}{A vector of threshold scale factors that were

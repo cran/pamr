@@ -4,7 +4,7 @@
 \description{ A function to plot the shrunken class centroids, from the
   nearest shrunken centroid classifier produced by pamr.train}
 
-}
+
 \usage{
 pamr.plotcen(fit, data,  threshold)
 }

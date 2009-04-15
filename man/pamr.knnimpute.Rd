@@ -59,7 +59,7 @@ pamr.knnimpute(data ,k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500)
 }
 
 \value{
-  \item{data} {The input data list, with x replaced by the 
+  \item{data}{The input data list, with x replaced by the 
     imputed version of x}
 }
 

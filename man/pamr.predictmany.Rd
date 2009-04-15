@@ -5,7 +5,7 @@
 \description{A function giving prediction information for many threshold values,
   from a nearest shrunken centroid fit}
 
-}
+
 \usage{
 pamr.predictmany(fit, newx, threshold=fit$threshold, prior =fit$prior, threshold.scale = fit$
         threshold.scale, ...)

@@ -17,11 +17,10 @@ pamr.confusion.survival(fit, survival.time, censoring.status, yhat)
    \item{survival.time}{Survival time}
 \item{censoring.status}{censoring status}
 \item{yhat}{class predictions}
-  
-}    
+}   
 
 \details{}
-}
+
 
 
 \references{}
@@ -31,7 +30,7 @@ pamr.confusion.survival(fit, survival.time, censoring.status, yhat)
 
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 
-\examples{
-}
+\examples{}
+
 \keyword{ }
 

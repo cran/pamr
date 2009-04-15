@@ -53,6 +53,7 @@ prop=apply(ind[aa,,drop=F],1,sum)/nfold
   options(width = 500)
   schdr <- paste(clabs, "score", sep = "-")
 
+browser()
 if(is.null(fitcv)){
 res <- cbind(as.character(g1), g, d)[gene.order,,drop=F]
   dimnames(res) <- list(NULL, c("id", gnhdr, schdr))

@@ -1,6 +1,6 @@
 \name{pamr.cv}
 \alias{pamr.cv}
-\title{ A function to cross-validate the nearest shrunken centroid
+\title{A function to cross-validate the nearest shrunken centroid
   classifier}
 \description{A function to cross-validate the nearest shrunken centroid
   classifier produced by pamr.train}
@@ -21,7 +21,7 @@ pamr.cv(fit, data,  nfold = NULL, folds = NULL,...)
   \item{folds}{A list with nfold components, each component a vector of
     indices of the samples in that fold. By default a (random) balanced
     cross-validation is used}.
-  \item{...} {Any additional arguments that are to be passed to pamr.train}
+  \item{...}{Any additional arguments that are to be passed to pamr.train}
 }    
 \details{
   \code{pamr.cv} carries out cross-validation for a nearest shrunken
@@ -29,7 +29,7 @@ pamr.cv(fit, data,  nfold = NULL, folds = NULL,...)
 }
 \value{
   A list with components
-  \item{threshold} {A vector of the thresholds tried in the shrinkage}
+  \item{threshold}{A vector of the thresholds tried in the shrinkage}
   \item{errors}{The number of cross-validation  errors for each threshold value}
   \item{loglik}{The cross-validated multinomial log-likelihood value
     for each threshold value}

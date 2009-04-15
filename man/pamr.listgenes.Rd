@@ -5,7 +5,6 @@
 \description{ A function to list the genes that survive the thresholding,
   from the nearest shrunken centroid classifier produced by pamr.train}
 
-}
 \usage{
 pamr.listgenes(fit, data,  threshold, fitcv=NULL, genenames=FALSE)
 }

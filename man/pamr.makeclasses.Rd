@@ -17,7 +17,7 @@ pamr.makeclasses(data,sort.by.class=FALSE,...)
     class labels y in `data') together in the tree. This is useful
     if a regrouping of classes is desired. Eg: given classes 1,2,3,4
     you want to define new classes (1,3) vs (2,4)  or 2 vs (1,3)}
-  \item{...} {Any additional arguments to be passed to hclust}
+  \item{...}{Any additional arguments to be passed to hclust}
 }
 
 \details{

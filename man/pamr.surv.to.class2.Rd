@@ -37,7 +37,7 @@ Meier and are typically between 0 and 1.
 }
 
 \value{
-  \item{class} {The category labels}
+  \item{class}{The category labels}
  \item{prob}{The estimates class probabilities}
  \item{cutoffs}{The cutoffs used}
 }

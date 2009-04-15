@@ -31,17 +31,17 @@ pamr.from.excel(file, ncols, sample.labels = FALSE, batch.labels = FALSE)
   } 
 }  
 \details{
-  \code{pamr.from.excel} {Reads in the  text file "file", and creates an
+  \code{pamr.from.excel} Reads in the  text file "file", and creates an
     object with components x (the matrix of expression values), y- a vector of
     class labels for each sample, geneid- a vector of gene identifiers and
-    genenames- a vector of gene names}
+    genenames- a vector of gene names
 }
 \value{
   A list with components
-  \item{x} {the matrix of expression values}
-  \item{y} {a vector of
-    class labels for each sample,} 
-  \item{geneid} {a vector of gene identifiers}
+  \item{x}{the matrix of expression values}
+  \item{y}{a vector of
+    class labels for each sample} 
+  \item{geneid}{a vector of gene identifiers}
   \item{genenames}{a vector of gene names}
   \item{samplelabels}{a vector of sample labels, if provided in "file"}
   \item{batchlabels}{a vector of batch labels, if provided in "file"}

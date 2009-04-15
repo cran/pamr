@@ -18,13 +18,12 @@ pamr.to.excel(data,file,trace=TRUE)
 \item{trace}{Optional argument. If true, progress in writing out file is reported.}
 }
 \details{
-  \code{pamr.to.excel} {
+  \code{pamr.to.excel} 
     writes out the data object into a tab-delimited text file, of the same
     form as is read in by pamr.from.excel.
     Useful for writing out data that has been imputed by pamr.knnimpute or
     adjusted by pamr.batchadjust. Note- this function writes the file out
     one line at a time, and hence can take a while for big datasets.
-  }
 }
 
 
