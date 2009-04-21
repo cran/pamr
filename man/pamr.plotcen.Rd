@@ -2,7 +2,7 @@
 \alias{pamr.plotcen}
 \title{ A function to plot the shrunken class centroids, from the nearest shrunken centroid classifier}
 \description{ A function to plot the shrunken class centroids, from the
-  nearest shrunken centroid classifier produced by pamr.train}
+  nearest shrunken centroid classifier produced by pamr.train.}
 
 
 \usage{

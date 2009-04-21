@@ -13,8 +13,8 @@ pamr.score.to.class2 <- function (x, scores, cutoff=2, n.pc=1, n.class=2)
         return(out)
 }
 
-pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens)
 
+pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens) 
 # Splits patients into classes based on their survival times
 # The user can either specify the number of classes or the survival
 # time cutoffs.
@@ -25,19 +25,18 @@ pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.na
 # n.class - number of classes to create
 # class.names - optional vector of names for each class
 {
-        require(survival)
         if (is.null(cutoffs) & is.null(n.class)) {
                 stop("Must specify either cutoffs or n.class")
         }
         if (!is.null(cutoffs) & !is.null(n.class)) {
                 stop("Can't have both cutoffs and n.class specified")
         }
-        data.sfit <- survfit(Surv(y,icens)~1)
+        data.sfit <- survfit(Surv(y,icens) ~ 1)
         if (!is.null(cutoffs)) {
                 if (is.null(class.names)) {
                         class.names <- 1:(length(cutoffs)+1)
                 }
-                cur.mat <- gen.y.mat2(list(y=y, icens=icens), cutoffs, class.names,                                              newdata=list(y=newy, icens=newic))
+                cur.mat <- gen.y.mat2(Surv(y, icens), cutoffs, class.names,                                              newdata=Surv(newy, newic))
         }
         else {
                 if (n.class==1) {
@@ -49,8 +48,8 @@ pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.na
                 cur.quantiles <- seq(from=0, to=1, length=n.class+1)
                 cur.quantiles <- cur.quantiles[2:n.class]
                 cutoffs <- quantile(y[icens==1], cur.quantiles)
-                cur.mat <- gen.y.mat2(list(y=y, icens=icens), cutoffs, class.names,
-                                newdata=list(y=newy, icens=newic))
+                cur.mat <- gen.y.mat2(Surv(y, icens), cutoffs, class.names,
+                                newdata=Surv(newy, newic))
         }
         mle.classes <- apply(cur.mat, 1, get.mle.class)
          return(list(class=as.numeric(mle.classes), prob=cur.mat, cutoffs=cutoffs))
@@ -63,30 +62,30 @@ gen.y.mat2 <- function(surv.data, cutoffs, class.names=NULL, newdata=surv.data)
 # and uses this information to calculate the probability that
 # a patient with a censored survival time died in a given interval.
 {
-         data.sfit <- survfit(Surv(surv.data$y,surv.data$icens)~1)
+         data.sfit <- survfit(surv.data ~ 1)
          surv.ndx <- find.surv.ndx(cutoffs, data.sfit$time)
          surv.probs <- c(0, 1-data.sfit$surv[surv.ndx],1)
          surv.probs <- c(rep(0, sum((surv.ndx==0))), surv.probs)
-         cutoffs <- c((min(surv.data$y)-1), cutoffs, (max(surv.data$y)+1))
+         cutoffs <- c((min(surv.data[,1])-1), cutoffs, (max(surv.data[,1])+1))
          y.size <- length(cutoffs)
-         y.mat <- matrix(0,nrow=length(newdata$y), ncol=(y.size-1))
+         y.mat <- matrix(0,nrow=length(newdata[,1]), ncol=(y.size-1))
          for (i in 2:y.size) {
                  cur.int.prob <- surv.probs[i] - surv.probs[i-1]
-                 y.mat[((newdata$y<=cutoffs[i])&(newdata$y>cutoffs[i-1])&
-                         (newdata$icens==1)),i-1] <- 1
-                 which.x <- ((newdata$icens==0)&(newdata$y<=cutoffs[i-1]))
+                 y.mat[((newdata[,1]<=cutoffs[i])&(newdata[,1]>cutoffs[i-1])&
+                         (newdata[,2]==1)),i-1] <- 1
+                 which.x <- ((newdata[,2]==0)&(newdata[,1]<=cutoffs[i-1]))
                  if (sum(which.x)>0) {
-                         which.x.vals <- newdata$y[which.x]
+                         which.x.vals <- newdata[which.x,1]
                          surv.ndx <- find.surv.ndx(which.x.vals,
                                  data.sfit$time)
                          y.mat[which.x,i-1][surv.ndx==0] <- cur.int.prob
                          y.mat[which.x,i-1][surv.ndx!=0] <- cur.int.prob /
                                  data.sfit$surv[surv.ndx]
                  }
-                 which.x <- ((newdata$icens==0)&(newdata$y>cutoffs[i-1])&
-                         (newdata$y<=cutoffs[i]))
+                 which.x <- ((newdata[,2]==0)&(newdata[,1]>cutoffs[i-1])&
+                         (newdata[,1]<=cutoffs[i]))
                  if (sum(which.x>0)) {
-                         which.x.vals <- newdata$y[which.x]
+                         which.x.vals <- newdata[which.x,1]
                          surv.ndx <- find.surv.ndx(which.x.vals,
                                  data.sfit$time)
                          y.mat[which.x,i-1][surv.ndx==0] <- surv.probs[i]
@@ -101,8 +100,6 @@ gen.y.mat2 <- function(surv.data, cutoffs, class.names=NULL, newdata=surv.data)
          }
          y.mat
 }
-  
-
 
 get.surv.q <- function(surv.obj, quantile) 
 {
@@ -130,7 +127,6 @@ kmeans2 <- function(x, ..., n.rep=10)
 # Performs k-means clustering multiple times from different starting
 # points
 {
-        require(cluster)
         wss <- Inf
         for (i in 1:n.rep) {
                 cur.fit <- kmeans(x, ...)
@@ -302,7 +298,6 @@ return(tt)
 }
 pamr.plotsurvival <- function(group, survival.time, censoring.status){
   # plots Kaplan-Meier curves stratified by "group"
-  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(survival.time, censoring.status)~as.factor(group))
   junk2 <- coxph(Surv(survival.time, censoring.status) ~ as.factor(group))      
@@ -324,15 +319,13 @@ return()
                 return(1 - pchisq(loglik, ngroup.survival - 1))
         }
 order.class.survival <- function(a, survival.time, censoring.status){
-require(survival)
-
 #orders the classes specified in "a" by median survival time, from
 #shortest to longest
 
 med <- rep(NA,length(table(a)))
 for(i in 1:length(table(a))){
     o <- a==i
-    aa <- survfit(Surv(survival.time[o],censoring.status[o]))
+    aa <- survfit(Surv(survival.time[o],censoring.status[o]) ~ 1)
     med[i] <- approx(aa$surv,aa$time, xout=.5, method="constant")$y
     }
 aa <- rep(NA,length(a))

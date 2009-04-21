@@ -3,7 +3,7 @@
 \title{ A function giving prediction information,
   from a nearest shrunken centroid fit.}
 \description{A function giving prediction information,
-  from a nearest shrunken centroid fit}
+  from a nearest shrunken centroid fit.}
 
 
 \usage{

@@ -2,7 +2,6 @@ pamr.plotstrata <-
 function (fit, survival.time, censoring.status)
 {
     group <-apply(fit$proby,1,which.is.max)
-    require(survival)
     n.class <- length(unique(group))
     junk <- survfit(Surv(survival.time, censoring.status) ~ as.factor(group))
     junk2 <- coxph(Surv(survival.time, censoring.status) ~ as.factor(group))

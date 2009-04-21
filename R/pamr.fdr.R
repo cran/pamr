@@ -106,8 +106,7 @@ results=results[!om,]
  dimnames(results) <- list(NULL,c("Threshold", "Number of significant genes", "Median number of null genes",
 "Median FDR", "90th percentile of FDR"))
 # last time through, delete the temp stuff that is used just by Excel interface
-y=NULL;x=NULL;m=NULL;threshold=NULL;n.threshold=NULL;tt=NULL;nperms=NULL;
-ttstar=NULL
+y=NULL;x=NULL;m=NULL;threshold=NULL;n.threshold=NULL;tt=NULL;nperms=NULL;ttstar=NULL
 }
 
   return(list(results=results,pi0=pi0, y=y,m=m,threshold=threshold,n.threshold=n.threshold, tt=tt,ttstar=ttstar, nperms=nperms))

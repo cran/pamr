@@ -1,0 +1,583 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>Prediction Analysis of Microarrays for R: Installation Guide and Manual</TITLE>
+</HEAD>
+<BODY>
+<H1>Prediction Analysis of Microarrays for R: Installation Guide and Manual</H1>
+
+<H2>
+<A HREF="http://www-stat.stanford.edu/~tibs/">Robert J. Tibshirani</A>, 
+<A HREF="http://www-stat.stanford.edu/~hastie/">Trevor J. Hastie</A>, 
+<A HREF="http://www-stat.stanford.edu/~naras/">Balasubramanian Narasimhan</A>, and Gilbert Chu</H2>$Revision: 1.2 $ of $Date: 2003/05/16 05:21:06 $.
+<HR>
+<EM>This document describes the installation and use of the <EM>PAM for R</EM>
+package. This document is always kept up-to-date at 
+<A HREF="http://www-stat.stanford.edu/~tibs/PAM/Rdist/readme.html">The PAM Page</A>.</EM>
+<HR>
+<H2><A NAME="sec:intro"></A> <A NAME="s1">1. Introduction </A> </H2>
+
+
+<P>The package <CODE>pamr</CODE> provides R functions for carrying out sample
+classification from gene expression data, by the method of nearest
+shrunken centroids.</P>
+<P>
+<UL>
+<LI> PAM is a simple, accurate and fast classifier, providing
+intrepretable results for the biologist.  </LI>
+<LI> It has many novel
+features, including <EM>heterogeneity analysis</EM> for discriminating a
+diseased group from a normal one.  </LI>
+<LI> PAM works under Windows
+and Unix/Linux and Mac. Under Windows, one may use the R package
+direct or use a graphical user interface. The latter is an Excel
+front-end called 
+<A HREF="http://www-stat.stanford.edu/~tibs/PAM">PAM For Excel</A>.
+</LI>
+<LI> The methodology is described in the paper
+<A HREF="http://www.pnas.org/cgi/reprint/99/10/6567">Diagnosis of multiple cancer types by shrunken centroids of gene expression</A> 
+by Tibshirani, Hastie, Narasimhan and Chu (May 14, 2002).</LI>
+</UL>
+</P>
+
+<H2><A NAME="sec:about-name"></A> <A NAME="ss1.1">1.1 About the package name </A>
+</H2>
+
+
+<P>There are already some functions in R called <EM>pam</EM> for partitioning
+around medoids. To avoid confusion, we have called our R package
+<EM>pamr</EM>. All functions provided by our package are named with a
+<CODE>pamr</CODE> prefix. </P>
+
+
+<H2><A NAME="sec:install"></A> <A NAME="s2">2. Installing <CODE>pamr</CODE> </A></H2>
+
+
+<P>
+<OL>
+<LI>You first need to install a recent  version of the R statistical
+package. This is free, and can be found at 
+<A HREF="http://www.cran.r-project.org">The R Project</A>.
+<P>Follow the instructions. Click on 
+<A HREF="http://cran.r-project.org/mirrors.html">http://cran.r-project.org/mirrors.html</A> name="CRAN"> under
+Download. Pick a mirror closest to you. You probably want a
+pre-compiled version. For windows, choose the 
+<B>Windows (95 or later)</B> link, select <CODE>base</CODE>, and download <CODE>SetupR.exe</CODE>.
+Installation takes 5-10 minutes. </P>
+
+<P>R is a great package, and is worth knowing about!</P>
+
+</LI>
+<LI>Download the appropriate Unix/Linux version or Windows version
+for your platform from the 
+<A HREF="http://www-stat.stanford.edu/~tibs/PAM/Rdist">PAM R distribution site</A>. Often, browsers offer you a choice of
+opening the file or saving it. Elect to save it and remember the name
+of the folder where you saved it.
+</LI>
+<LI>For Unix/Linux type 
+<BLOCKQUOTE><CODE>
+R CMD INSTALL -l mylib pamr_1.12.tar.gz
+</CODE></BLOCKQUOTE>
+
+
+In Windows, click on the R icon on your desktop, pull down the
+<CODE>Packages</CODE> menu item and select 
+<CODE>Install packages from local zip file</CODE>. A file chooser dialog will
+allow you to select the file 
+<CODE>pamr_1012.zip</CODE> that you just saved in the previous step.
+</LI>
+</OL>
+
+The above concludes the installation process and needs to be done just
+once. </P>
+
+<H2><A NAME="sec:usage"></A> <A NAME="s3">3. Using <CODE>pamr</CODE> </A></H2>
+
+
+<P>For Unix/Linux, start R and type
+<BLOCKQUOTE><CODE>
+library(pamr,lib.loc="mylib")
+</CODE></BLOCKQUOTE>
+</P>
+<P>In Windows, while in R pull down the <CODE>Packages</CODE> menu item and
+select <CODE>Load package</CODE>. Select <CODE>pamr</CODE>. In Windows you will find
+it helpful to go the <CODE>Misc</CODE> menu and turn off buffered output. This
+forces R output to be immediately written to the console.</P>
+
+<P>You are now ready to use PAM. </P>
+
+
+<H2><A NAME="sec:summary-funcs"></A> <A NAME="s4">4. Summary of functions</A></H2>
+
+
+<P>
+<UL>
+<LI> 
+<A HREF="pamr.knnimpute.html">pam.knnimpute</A> A
+function to impute missing expression data</LI>
+<LI> 
+<A HREF="pamr.adaptthresh.html">pamr.adaptthresh</A> A
+function  to adaptive choose threshold scales, for use in
+<CODE>pamr.train</CODE></LI>
+<LI> 
+<A HREF="pamr.batchadjust.html">pamr.batchadjust</A>A function
+to mean-adjust microarray data by batches</LI>
+<LI> 
+<A HREF="pamr.cv.html">pamr.cv</A> A function to
+cross-validate the nearest shrunken centroid
+classifier</LI>
+<LI>
+<A HREF="pamr.from.excel.html">pamr.from.excel</A> A
+function to read in a text file saved from Excel</LI>
+<LI>
+<A HREF="pamr.makeclasses.html">pamr.makeclasses</A> A
+function to interactively define classes from a clustering
+tree</LI>
+<LI>
+<A HREF="pamr.menu.html">pamr.menu</A> A function that
+interactively leads the user through a PAM analysis</LI>
+<LI>
+<A HREF="pamr.plotcen.html">pamr.plotcen</A> A function to
+plot the shrunken class centroids, from the nearest shrunken centroid
+classifier</LI>
+<LI>
+<A HREF="pamr.plotcv.html">pamr.plotcv</A> A function to
+plot the cross-validated  error curves from the nearest shrunken
+centroid classifier </LI>
+<LI>
+<A HREF="pamr.plotcvprob.html">pamr.plotcvprob</A> A
+function to plot the cross-validated sample probabilities from the
+nearest shrunken centroid classifier </LI>
+<LI>
+<A HREF="pamr.predict.html">pamr.predict</A> A function
+producing predicted information,  from a nearest shrunken centroid
+fit</LI>
+<LI>
+<A HREF="pamr.to.excel.html">pamr.to.excel</A> A function
+to write out a data object into a tab-delimited text file</LI>
+<LI>
+<A HREF="pamr.train.html">pamr.train</A> A function to
+train a nearest shrunken centroid classifier</LI>
+<LI>
+<A HREF="pamr.outliers.html">pamr.outliers</A> A function
+to find potentially outlying samples</LI>
+</UL>
+</P>
+<P>To get detailed help on any function in R, use the command
+<CODE>help(function)</CODE>. For example, <CODE>help(pamr.train)</CODE>.</P>
+
+<H2><A NAME="sec:sample-session"></A> <A NAME="s5">5. A Sample Session </A></H2>
+
+
+<P>Please note that in what follows, code section lines starting with "#"
+are comments.  </P>
+
+<H2><A NAME="pam-read-data"></A> <A NAME="ss5.1">5.1 Reading in data </A>
+</H2>
+
+
+<P>The first thing to do is to read in some data. Remember to put quotes
+around each genename in your Excel spreadsheet. In Unix, you do this
+as follows.
+<BLOCKQUOTE><CODE>
+## Read in sample dataset: khan data, 2308 genes,  65 columns. (Unix)
+#  in Unix/Linux
+khan.data &lt;- pamr.from.excel("mylib/pamr/data/khan.txt", 65, sample.labels=TRUE)
+</CODE></BLOCKQUOTE>
+</P>
+<P>On Windows, use the following.
+<BLOCKQUOTE><CODE>
+khan.data &lt;- pamr.from.excel("C:\\Program Files\\R\\rw1070\\library\\pamr\\data\\khan.txt",
+65, sample.labels=TRUE) 
+</CODE></BLOCKQUOTE>
+</P>
+<P>The above assumes that R has been installed in 
+<CODE>C:\\Program Files\\R\\rw1070</CODE> which is the default for R version
+1.7.0.</P>
+
+<H2><A NAME="pam-analysis"></A> <A NAME="ss5.2">5.2 PAM Analysis </A>
+</H2>
+
+
+<P>To do a pam analysis, you can either run the various commands (e.g.
+<CODE>pamr.train</CODE>) one at a time, or use the function <CODE>pamr.menu</CODE>
+which interactively leads the user through a typical analysis.  The
+individual commands used in a non-interactive analysis are documented
+below. <EM>The "non-interactive" analysis offers more control of input
+options</EM>. </P>
+
+<P>To start the interactive analysis, type</P>
+<P>
+<BLOCKQUOTE><CODE>
+pamr.menu(khan.data)
+</CODE></BLOCKQUOTE>
+</P>
+<P>This produces the following menu:
+<HR>
+<PRE>
+1:pamr.train 
+2:pamr.cv 
+3:pamr.plotcv 
+4:pamr.plotcen 
+5:pamr.confusion 
+6:pamr.plotcvprob 
+7:pamr.geneplot 
+8:pamr.listgenes 
+9:pamr.train with heterogeneity analysis 
+10:Exit 
+Selection: 
+</PRE>
+<HR>
+</P>
+<P>The standard procedure is to begin by typing <CODE>1</CODE> to select
+<CODE>pamr.train</CODE>, and then after that computation is done, you would
+pick <CODE>2</CODE> for <CODE>pamr.cv</CODE>. Typically, you would go through steps
+<CODE>3</CODE> through <CODE>8</CODE>, to generate plots and gene lists. Along the
+way, in some of the steps you are asked for a threshold value: this
+value you choose visually from the plot created by
+<CODE>pamr.plotcv</CODE>. Menu Choice <CODE>9</CODE> is optional.</P>
+<P>Here are the steps of a typical non-interactive analysis. </P>
+<P>
+<HR>
+<PRE>
+## Train the classifier
+khan.train &lt;- pamr.train(khan.data)
+
+## Type name of object to see the results
+khan.train
+
+Call:
+pamr.train(data = khan.data)
+
+   threshold nonzero errors
+1  0.000     2308    2     
+2  0.262     2289    1     
+3  0.524     2145    1     
+4  0.786     1878    0     
+5  1.048     1494    0     
+6  1.309     1137    0    
+etc.
+
+## Cross-validate the classifier
+khan.results&lt;- pamr.cv(khan.train, khan.data)
+khan.results
+
+Call:
+pamr.cv(a = khan.train, data = khan.data)
+   threshold nonzero errors
+1  0.000     2308    2     
+2  0.262     2289    2     
+3  0.524     2145    2     
+4  0.786     1878    2     
+5  1.048     1494    2     
+6  1.309     1137    1     
+7  1.571      853    1     
+etc.
+
+## Plot the cross-validated error curves
+pamr.plotcv(khan.results)
+
+## Compute the confusion matrix for a particular model (threshold=4.0) 
+pamr.confusion(khan.results, threshold=4.0)
+
+## Plot the cross-validated class probabilities by class
+pamr.plotcvprob(khan.results, khan.data, threshold=4.0)
+
+## Plot the class centroids
+pamr.plotcen(khan.train, khan.data, threshold=4.0)
+
+## Make a gene plot of the most significant genes
+pamr.geneplot(khan.train, khan.data, threshold=5.3)
+
+## List the significant genes
+pamr.listgenes(khan.train, khan.data, threshold=4.0)
+
+## Try heterogeneity analysis, with class "BL" taken to be the normal group
+khan.train2 &lt;- pamr.train(khan.data,hetero="BL")
+khan.results2 &lt;-  pamr.cv(khan.train2, khan.data)
+
+
+## Look for better threshold scalings
+khan.scales &lt;- pamr.adaptthresh(khan.train)
+khan.train3 &lt;- pamr.train(khan.data, threshold.scale=khan.scales)
+khan.results3 &lt;-  pamr.cv(khan.train3, khan.data)
+</PRE>
+<HR>
+</P>
+
+<H2><A NAME="sec:missing-data"></A> <A NAME="ss5.3">5.3 Missing data, Batch Adjustment </A>
+</H2>
+
+
+<P>If you have <EM>missing expression data</EM>, you will first want to
+impute the missing values, before running <CODE>pamr.train</CODE> etc. For
+example, if <CODE>khan.data</CODE> had missing values---in reality, it does
+not---you would do 
+<BLOCKQUOTE><CODE>
+khan.data2 &lt;- pamr.knnimpute(khan.data)
+</CODE></BLOCKQUOTE>
+</P>
+<P>and proceed to use <CODE>khan.data2</CODE> in all the analyses.</P>
+<P>Suppose <CODE>khan.data</CODE> had <B>batch labels</B>---in reality, it does
+not, but see discussion of how to input batch labels below---then you
+may want to mean-adjust genes by batches before further analysis. 
+<BLOCKQUOTE><CODE>
+khan.data3 &lt;-  pamr.batchadjust(khan.data2)
+</CODE></BLOCKQUOTE>
+</P>
+<P>If you want to write this adjusted data to a text file, suitable for
+reading into Excel:
+<BLOCKQUOTE><CODE>
+pamr.to.excel(khan.data3, file="khan3.txt")
+</CODE></BLOCKQUOTE>
+</P>
+
+<H2><A NAME="data-entry-notes"></A> <A NAME="s6">6. Notes on data entry </A></H2>
+
+
+<P>PAM expects the data in an object with components <I>x</I> (the
+expression matrix of genes by samples) and <I>y</I>, a vector of class
+labels. Optionally the object can also contain a geneid component and
+a genenames component.</P>
+
+<P>You can create this data object (read in your data) any way you'd
+like.  For example if the expression data were in a tab-delimited text
+file <CODE>foo.txt</CODE>, one row per gene, you could say</P>
+<P>
+<BLOCKQUOTE><CODE>
+data$x &lt;- read.table("foo.txt",sep="\t")
+</CODE></BLOCKQUOTE>
+</P>
+<P>Similarly if the  class labels were in a tab-delimited text file <CODE>foo2.txt</CODE>
+you could say
+<BLOCKQUOTE><CODE>
+data$y &lt;- factor(scan("foo2.txt",sep="\t",what=""))
+</CODE></BLOCKQUOTE>
+</P>
+<P>To make things easier for users of SAM, we have provided the function
+<CODE>pamr.from.excel</CODE>, which reads a dataset in SAM format, that has
+been saved as a text file. It unpacks the <I>x</I>, <I>y</I>, geneid, and
+genenames components automatically.</P>
+
+<P>A SAM spreadsheet has one row of expression values per gene. In
+addition there is one information row and two information columns.
+The first row has class labels for each of the samples. The first
+column had gene identifiers, and the second column has gene names.</P>
+<P>Here is an example:
+<HR>
+<PRE>
+empty cell          empty cell          EWS              EWS           EWS            EWS   
+GENE1   " ""\""catenin (cadherin-a"" "  0.773343723     -0.078177781  -0.084469157    0.965614087
+GENE2   " ""farnesyl-diphosphate""  "   -2.438404816    -2.415753791  -1.649739209   -2.3805466343
+etc.
+</PRE>
+<HR>
+</P>
+<P>In the above "empty cell" is an empty cell in Excel. There are tabs 
+between each entry.</P>
+
+<H2><A NAME="gene-names"></A> <A NAME="s7">7. Gene Names </A></H2>
+
+
+<P>You should put quotes (") around the all genenames in the Excel
+spreadsheet. Otherwise PAM can get confused with long genenames that
+wrap over the end of a line. In Excel, this is done as follows (thanks
+to Brian Zing).
+<OL>
+<LI> Select the column</LI>
+<LI> Select <B>Format</B>Cells/Number/Custom/ and then in the 
+text box under <B>Type</B> enter:  \"@\"</LI>
+<LI> Click OK and the column should have quotes around all the text.</LI>
+</OL>
+</P>
+<P>In addition, if <CODE>sample.labels=TRUE</CODE> is specified in the call to
+<CODE>pamr.from.excel</CODE>, the data file is assumed to have an additional
+row at the top, consisting of two blank cells followed by a sample
+labels for each of the columns. If available, these sample labels are
+used by various plotting routines.</P>
+
+<P>For example, here is the first part of the file <CODE>khan.txt</CODE>,
+supplied with the PAM distribution: </P>
+<P>
+<HR>
+<PRE>
+empty cell          empty cell           "sample1"     "sample2"       "sample3"       "sample4"     
+empty cell          empty cell            EWS           EWS            EWS             EWS   
+GENE1   " ""\""catenin (cadherin-a"" "  0.773343723     -0.078177781  -0.084469157    0.965614087
+GENE2   " ""farnesyl-diphosphate""  "   -2.438404816    -2.415753791  -1.649739209   -2.3805466343
+etc.
+</PRE>
+<HR>
+</P>
+<P>This is the first part of the file <CODE>khan.txt</CODE>, suppiled with this
+software.  It is a tab-delimited text file, saved from an Excel
+spreadsheet.</P>
+
+<P>Finally, one can also include a row of batch labels after the row of
+sample labels. Indicate batch.labels=TRUE in the call to
+<CODE>pamr.from.excel</CODE>.  Example of input text file:</P>
+<P>
+<HR>
+<PRE>
+empty cell          empty cell           "sample1"     "sample2"      "sample3"      "sample4"
+empty cell          empty cell           "batch1"      "batch2"       "batch3"       "batch4"
+empty cell          empty cell            EWS           EWS            EWS            EWS         
+GENE1   " ""\""catenin (cadherin-a"" "  0.773343723     -0.078177781  -0.084469157    0.965614087
+GENE2   " ""farnesyl-diphosphate""  "   -2.438404816    -2.415753791  -1.649739209   -2.3805466343
+etc.
+</PRE>
+<HR>
+</P>
+<P>Or you could have batch labels but no sample labels in the file. Then would specify
+<CODE>batch.labels=TRUE sample.labels=FALSE</CODE> in the call to <CODE>pamr.from.excel</CODE>.</P>
+
+<H2><A NAME="sec:makeclasses"></A> <A NAME="s8">8. Defining new classes: the function <CODE>pamr.makeclasses</CODE> </A></H2>
+
+
+<P>This function allows one to interactively define classes from a
+clustering tree, for later use in <CODE>pamr.train</CODE>, <CODE>pamr.cv</CODE> etc.
+This is useful for creating classes from unlabelled data, or defining
+new groups from labelled data. Eg. given classes 1,2,3,4, one can
+define new groups [1,3] and [2,4]. </P>
+
+<P>One starts by typing
+<BLOCKQUOTE><CODE>
+khan.data$newy &lt;- pamr.makeclasses(khan.data)
+</CODE></BLOCKQUOTE>
+</P>
+<P>This causes a clustering tree to be drawn, via the the R function
+<CODE>hclust</CODE>, and any arguments for <CODE>hclust</CODE> can be passed to it
+<CODE>pamr.makeclasses</CODE>. See <CODE>help(hclust)</CODE> for details on the options</P>
+<P>
+<HR>
+<PRE>
+                        |
+                        |
+                    ____x______
+                    |         |
+                    |         |     x= junction point
+                  __x__       |
+                  |   |       | 
+                            __x_
+                            |   |
+                            |   |
+</PRE>
+<HR>
+</P>
+<P>Using the left button, the user clicks at the junction point defining
+the class 1. More groups can be added to class 1 by clicking on
+further junction points. The user ends the definition of class 1 by
+clicking on the rightmost button. [Under Windows, an additional menu
+appears; choose <CODE>Stop</CODE>] . This process is continued for classes 2,3
+etc.  Note that some samples may be left out of the new classes.  Two
+consecutive clicks of the right button ends the definition for all
+classes.</P>
+
+<P>At the end, the clustering is redrawn, with the new class labels
+shown.</P>
+
+<P>The function returns a vector of class labels 1,2,3..., and these are
+assigned to component <CODE>newy</CODE> of <CODE>khan.data</CODE> by the command
+above. If a component is <CODE>NA</CODE> (missing), then the sample is not assigned
+to any class.</P>
+
+<P>Then the user calls <CODE>pamr.train</CODE>, <CODE>pamr.cv</CODE> etc. in the usual
+way: 
+<BLOCKQUOTE><CODE>
+khan.train &lt;- pamr.train(khan.data)
+khan.results &lt;- pamr.cv(khan.train, khan.data)
+</CODE></BLOCKQUOTE>
+</P>
+<P>Note that <CODE>pamr.train</CODE>, <CODE>pamr.cv</CODE> and all functions use the
+class labels in the component <CODE>newy</CODE> if they are present. Otherwise
+they use the data labels <CODE>y</CODE>. </P>
+
+<P>There is one optional argument called <CODE>sort.by.class</CODE>. If <CODE>TRUE</CODE>, the clustering tree
+is forced to put all samples in the same class  (as defined by the
+class labels <CODE>$y</CODE> in the data object) together in the tree. This is useful
+if a regrouping of classes is desired. Eg: given classes 1,2,3,4
+you want to define new classes [1,3] vs [2,4]  or 2 vs [1,3].
+The default is <CODE>sort.by.class=FALSE</CODE>. </P>
+
+<P><B>Note:</B> This function is "fragile". The user must click close to
+the junction point, to avoid confusion with other junction
+points. Classes 1,2,3..  cannot have samples in common (if they do, an
+Error message will appear).  If the function is confused about the
+desired choices, it will complain and ask the user to rerun
+pamr.makeclasses. The user should also check that the labels on the
+final redrawn cluster tree agrees with the desired classes.</P>
+
+<P><B>IMPORTANT WARNING!</B> Suppose you start with unlabelled data, and
+use <CODE>pamr.makeclasses</CODE> to define classes. You then run
+<CODE>pamr.train</CODE> and <CODE>pamr.cv</CODE>. Then the cross-validated
+misclassification rates given by <CODE>pamr.plotcv</CODE> will tend to be
+<EM>biased downward</EM>. This is because the same training data was used
+to define the class labels and and to train and cross-validate the
+classfier. Hence the absolute levels of misclassification rates (eg
+5%) cannot be trusted. But the relative levels can still be
+useful. Eg. if you find that 100 genes give misclassification error
+lower that 50 or 500 genes, this is valid information.</P>
+
+
+<H2><A NAME="sec:how"></A> <A NAME="s9">9. How does nearest shrunken centroid classification work? </A></H2>
+
+<P> </P>
+<P>PAM uses the nearest shrunken centroid methodology described in:
+<A HREF="http://www.pnas.org/cgi/reprint/99/10/6567">Diagnosis of multiple cancer types by shrunken centroids of gene expression</A> 
+by Tibshirani, Hastie, Narasimhan and Chu (May 14, 2002). Also see: 
+<A HREF="doc.ps">Talk slides in Postscript</A> or 
+<A HREF="doc.pdf">Talk slides in PDF</A>.</P>
+
+<P>Briefly, the method computes a standardized centroid for each class.
+This is the average gene expression for each gene in each class
+divided by the within-class standard deviation for that gene.</P>
+
+<P>Nearest centroid classification takes the gene expression profile
+of a new sample, and compares it to each of these class centroids.
+The class whose centroid that it is closest to, in squared distance, is
+the predicted class for that new sample. </P>
+
+<P>Nearest shrunken centroid classification makes one important
+modification to standard nearest centroid classification. It
+<EM>shrinks</EM> each of the class centroids toward the overall centroid
+for all classes by an amount we call the <EM>threshold</EM>. This
+shrinkage consists of moving the centroid towards zero by
+<EM>threshold</EM>, setting it equal to zero if it hits zero. For example
+if <EM>threshold</EM> was 2.0, a centroid of 3.2 would be shrunk to 1.2, a
+centroid of -3.4 would be shrunk to -1.4, and a centroid of 1.2 would
+be shrunk to zero.</P>
+
+<P>After shrinking the centroids, the new sample is classified by the
+usual nearest centroid rule, but using the shrunken class
+centroids.</P>
+<P> </P>
+<P>This shrinkage  has two advantages: 
+<OL>
+<LI> It can make the classifier more accurate by reducing the effect
+of noisy genes</LI>
+<LI> It does automatic gene selection. </LI>
+</OL>
+</P>
+<P>In particular, if a gene is shrunk to zero for all classes, then it is
+eliminated from the prediction rule. Alternatively, it may be set to
+zero for all classes except one, and we learn that high or low
+expression for that gene characterizes that class.</P>
+
+<P>The user decides on the value to use for <EM>threshold</EM>.
+Typically one examines a number of different choices. To guide
+in this choice, PAM does K-fold cross-validation for a range
+of threshold values. The samples are divided up at random into
+K roughly equally sized parts. For each part in turn,
+the classifier is built on  the other K-1 parts 
+then tested on the remaining part. This is done for
+a range of threshold values, and the cross-validated
+misclassification error rate is reported for each threshold value.
+Typically, the user would choose the threshold value giving 
+the minimum cross-validated misclassification error rate.</P>
+
+<P>What one gets from this is a (typically) accurate classifier, that is
+simple to understand.</P>
+
+</BODY>
+</HTML>
