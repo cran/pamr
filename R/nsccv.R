@@ -19,7 +19,7 @@ if(is.null(nfold) & !is.null(survival.time)) {nfold <- 10}
 
  if(is.null(survival.time)){
         if(is.null(folds)) {
-                folds <-balanced.folds(y,nfold=nfold)
+                folds <-balanced.folds(y)
         }
        }
 
@@ -111,7 +111,7 @@ nfold<- length(folds)
                 }
         }
 
-obj<- list(threshold=threshold, errors=error, loglik=loglik,size=size, yhat=yhat,y=y,prob=prob,folds=folds, cv.objects=cv.objects, pvalue.survival=pvalue.survival,
+obj<- list(threshold=threshold, error=error, loglik=loglik,size=size, yhat=yhat,y=y,prob=prob,folds=folds, cv.objects=cv.objects, pvalue.survival=pvalue.survival,
                 call = this.call)
         class(obj) <- "nsccv"
         obj
