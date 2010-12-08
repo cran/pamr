@@ -23,7 +23,6 @@ true 'soft" class labels proby and the estimated ones "yhat"
 }
 
 
-\references{}
 
 
 
@@ -49,9 +48,9 @@ junk<-gendata(n=100)
 y<-junk$y
 ic<-junk$ic
 x<-junk$x
-d <- list(x=x, survival.time=y, censoring.status=ic, 
-          geneid=as.character(1:nrow(x)),
-          genenames=paste("g", as.character(1:nrow(x)), sep=""))
+d <- list(x=x,survival.time=y, censoring.status=ic, 
+geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+""))
 
 # train model
 a3<- pamr.train(d, ngroup.survival=2)
@@ -74,5 +73,4 @@ yhat <- pamr.predict(a3,dd$x, threshold=1.0)
 pamr.test.errors.surv.compute(proby, yhat)
 
 }
-\keyword{ }
 

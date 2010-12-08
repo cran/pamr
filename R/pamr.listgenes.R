@@ -53,13 +53,14 @@ prop=apply(ind[aa,,drop=F],1,sum)/nfold
   options(width = 500)
   schdr <- paste(clabs, "score", sep = "-")
 
+browser()
 if(is.null(fitcv)){
-res <- cbind(as.character(g1), g, d)[gene.order,,drop=FALSE]
+res <- cbind(as.character(g1), g, d)[gene.order,,drop=F]
   dimnames(res) <- list(NULL, c("id", gnhdr, schdr))
 
 }
 if(!is.null(fitcv)){
-  res <- cbind(as.character(g1), g, d, av.rank, prop)[gene.order,,drop=FALSE]
+  res <- cbind(as.character(g1), g, d, av.rank, prop)[gene.order,,drop=F]
   dimnames(res) <- list(NULL, c("id", gnhdr, schdr, "av-rank-in-CV", "prop-selected-in-CV"))
 }
   print(res, quote = FALSE)

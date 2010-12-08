@@ -26,11 +26,8 @@ pamr.predictmany(fit, newx, threshold=fit$threshold, prior =fit$prior, threshold
 }
 
 
-\details{
-}
 
 
-\references{ }
 
 
 
@@ -47,5 +44,4 @@ mytrain <-   pamr.train(mydata)
 pamr.predictmany(mytrain, mydata$x)
  
 }
-\keyword{ }
 

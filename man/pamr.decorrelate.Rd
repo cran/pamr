@@ -73,5 +73,4 @@ d=list(x=temp$x.adj,y=y)
 a<-pamr.train(d)
 aa<-pamr.predict(a,temp$xtest.adj, threshold=.5)
 }
-\keyword{ }
 

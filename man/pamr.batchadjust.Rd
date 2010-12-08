@@ -28,7 +28,6 @@ pamr.batchadjust(data)
 \value{ A data object  of the same form as the input data, with x
   replaced by the adjusted x}
 
-\references{}
 
 
 
@@ -45,5 +44,4 @@ mydata <- list(x=x,y=factor(y),batchlabels=factor(batchlabels))
 mydata2 <- pamr.batchadjust(mydata)
 }
 
-\keyword{ }
 

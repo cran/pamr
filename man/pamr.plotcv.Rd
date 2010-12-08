@@ -20,10 +20,7 @@ pamr.plotcv(fit)
   curves,   from nearest shrunken
   centroid classifier. An overall plot, and a plot by class, are produced.
 }
-\value{
-}
 
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -38,5 +35,4 @@ mycv <-  pamr.cv(mytrain, mydata)
 pamr.plotcv(mycv)
 }
 
-\keyword{ }
 

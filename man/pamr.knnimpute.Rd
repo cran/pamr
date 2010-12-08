@@ -73,5 +73,4 @@ pamr.knnimpute(data ,k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500)
 
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu}
 
-\keyword{}
 

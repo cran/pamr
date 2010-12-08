@@ -19,10 +19,7 @@ pamr.menu(data)
   \code{pamr.menu} provides a menu for training, cross-validating
   and plotting a nearest shrunken centroid analysis.
 }
-\value{
-}
 
-\references{}
 
 
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -35,5 +32,4 @@ mydata <- list(x=x,y=y)
 #  pamr.menu(mydata)
 }
 
-\keyword{ }
 

@@ -81,7 +81,9 @@ pamr.xl.compute.offset <- function(data, offset.percent=50, prior=prior){
 
 pamr.xl.get.offset  <- function() {
   if (exists("x.train")) {
-    return (x.train$offset)
+    temp=x.train$offset
+ if(is.null(temp)){temp=0}
+    return (temp)
   } else {
     return (pamr.xl.compute.offset(pamr.xl.data,
                                    offset.percent=pamr.xl.training.parameters$offset.percent,
@@ -695,6 +697,7 @@ pamr.xl.transform.test.data <- function(test.x) {
 pamr.xl.plotsurvival<- function(fit, data, threshold) {
   group  <- pamr.predict(fit, data$x, threshold=threshold)
   ## plots Kaplan-Meier curves stratified by "group"
+  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(fit$survival.time, fit$censoring.status)~as.factor(group))
   win.metafile()
@@ -708,6 +711,7 @@ pamr.xl.plotsurvival<- function(fit, data, threshold) {
 pamr.xl.plotsurvival.test <- function(fit, newx, survival.time, censoring.status, threshold) {
   group  <- pamr.predict(fit, newx, threshold=threshold)
   ## plots Kaplan-Meier curves stratified by "group"
+  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(survival.time, censoring.status)~as.factor(group))
   win.metafile()
@@ -720,6 +724,7 @@ pamr.xl.plotsurvival.test <- function(fit, newx, survival.time, censoring.status
 
 pamr.xl.plotsurvival.strata <- function(fit, data) {
   group <-apply(fit$proby,1,which.is.max)
+  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))
   junk2 <- coxph(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))

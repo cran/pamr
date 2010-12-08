@@ -26,7 +26,6 @@ pamr.geneplot(fit, data, threshold)
 }
 
 
-\references{}
 
 
 
@@ -42,5 +41,4 @@ mytrain <-   pamr.train(mydata)
 pamr.geneplot(mytrain, mydata, threshold=1.6)
  
 }
-\keyword{ }
 

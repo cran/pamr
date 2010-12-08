@@ -22,10 +22,7 @@ pamr.plotfdr(fdrfit,  call.win.metafile = FALSE)
   centroid classifier. The median FDR (solid line) and upper 90 percentile
 (broken line) are shown
 }
-\value{
-}
 
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -41,5 +38,4 @@ myfdr <-  pamr.fdr(mytrain, mydata)
 pamr.plotfdr(myfdr)
 }
 
-\keyword{ }
 

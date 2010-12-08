@@ -14,12 +14,6 @@ pamr.plotstrata(fit, survival.time, censoring.status)
  \item{censoring.status}{Vector of censoring status values}
 }    
 
-\details{
-}
-\value{
-}
-
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -43,9 +37,9 @@ junk<-gendata(n=100)
 y<-junk$y
 ic<-junk$ic
 x<-junk$x
-d <- list(x=x, survival.time=y, censoring.status=ic,
-          geneid=as.character(1:nrow(x)), 
-          genenames=paste("g", as.character(1:nrow(x)),sep=""))
+d <- list(x=x,survival.time=y, censoring.status=ic,
+geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+""))
 
 # train model
 a3<- pamr.train(d, ngroup.survival=2)
@@ -54,5 +48,4 @@ a3<- pamr.train(d, ngroup.survival=2)
 pamr.plotstrata(a3, d$survival.time, d$censoring.status)
 }
 
-\keyword{ }
 

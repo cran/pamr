@@ -60,5 +60,4 @@ mytrain2 <- pamr.train(mydata, threshold.scale=new.scales)
 myresults2 <- pamr.cv(mytrain2, mydata)
 
 }
-\keyword{ }
 

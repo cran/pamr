@@ -24,10 +24,7 @@ pamr.plotcvprob(fit, data, threshold)
   \code{pamr.plotcvprob} plots the cross-validated sample probabilities  the from nearest shrunken
   centroid classifier, stratified by the true classses.
 }
-\value{
-}
 
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -45,5 +42,4 @@ pamr.plotcvprob(mycv,mydata,threshold=1.6)
 
 }
 
-\keyword{ }
 

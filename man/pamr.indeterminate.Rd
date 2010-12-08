@@ -20,11 +20,7 @@ pamr.indeterminate(prob, mingap=0)
 }
 
 
-\details{
-}
 
-
-\references{ }
 
 
 
@@ -40,5 +36,4 @@ mytrain <-   pamr.train(mydata)
 prob<- pamr.predict(mytrain, mydata$x , threshold=1, type="posterior")
 pamr.indeterminate(prob,mingap=.75)
 }
-\keyword{ }
 

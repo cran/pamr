@@ -13,10 +13,6 @@ pamr.plotsurvival(group, survival.time, censoring.status)
   \item{censoring.status}{Vector of censoring status values: 1=died, 0=censored }
 }
 
-\details{}
-\value{}
-
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -42,8 +38,8 @@ y<-junk$y
 ic<-junk$ic
 x<-junk$x
 d <- list(x=x,survival.time=y, censoring.status=ic,
-          geneid=as.character(1:nrow(x)), 
-          genenames=paste("g", as.character(1:nrow(x)), sep=""))
+geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+""))
 
 # train model
 a3<- pamr.train(d, ngroup.survival=2)
@@ -57,5 +53,4 @@ pamr.plotsurvival(yhat, d$survival.time, d$censoring.status)
 }
 
 
-\keyword{ }
 

@@ -26,7 +26,6 @@ Default TRUE}
 }
 
 
-\references{}
 
 
 
@@ -44,5 +43,4 @@ pamr.confusion(mytrain,  threshold=2)
 pamr.confusion(mycv,  threshold=2)
  
 }
-\keyword{ }
 

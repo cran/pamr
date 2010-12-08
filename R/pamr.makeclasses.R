@@ -1,4 +1,5 @@
 pamr.makeclasses <- function(data,  sort.by.class = FALSE, ...) {
+  require(cluster)
   as.matrix.dist <- function (x)  {
     size <- attr(x, "Size")
     df <- matrix(0, size, size)

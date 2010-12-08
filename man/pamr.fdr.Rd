@@ -33,7 +33,6 @@ Reported are both the median and 90th percentile of the  FDR over permutations}
 significantly different}
 }
 
-\references{}
 
 
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
@@ -43,12 +42,10 @@ set.seed(120)
 x <- matrix(rnorm(1000*20),ncol=20)
 y <- sample(c(1:4),size=20,replace=TRUE)
 
-mydata <- list(x=x,y=factor(y), geneid=as.character(1:nrow(x)),
-               genenames=paste("g", as.character(1:nrow(x)), sep=""))
+mydata <- list(x=x,y=factor(y), geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=""))
 
 mytrain <-   pamr.train(mydata)
 myfdr <- pamr.fdr(mytrain, mydata)
 }
 
-\keyword{ }
 

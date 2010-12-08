@@ -63,9 +63,9 @@ junk<-gendata(n=100)
 y<-junk$y
 ic<-junk$ic
 x<-junk$x
-d <- list(x=x, survival.time=y, censoring.status=ic,
-          geneid=as.character(1:nrow(x)),
-          genenames=paste("g", as.character(1:nrow(x)), sep=""))
+d <- list(x=x,survival.time=y, censoring.status=ic,
+geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+""))
 
 # train model
 a3<- pamr.train(d, ngroup.survival=2)
@@ -80,5 +80,4 @@ proby <-  pamr.surv.to.class2(dd$survival.time, dd$censoring.status,
              n.class=a3$ngroup.survival)$prob
 
 }
-\keyword{}
 

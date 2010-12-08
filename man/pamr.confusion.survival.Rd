@@ -14,24 +14,18 @@ pamr.confusion.survival(fit, survival.time, censoring.status, yhat)
 \arguments{
   
   \item{fit}{The result of a call to pamr.train or pamr.cv}
-  \item{survival.time}{Survival time}
-  \item{censoring.status}{censoring status}
-  \item{yhat}{class predictions}
-  
-}    
-
-\details{}
+   \item{survival.time}{Survival time}
+\item{censoring.status}{censoring status}
+\item{yhat}{class predictions}
+}   
 
 
 
-\references{}
+
 
 
 
 
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 
-\examples{
-}
-\keyword{ }
 

@@ -29,8 +29,7 @@ ngroup.survival = 2)
     a logical vector of length total number of samples, or a list
     of integers of the column numbers of the samples to be used.}
   \item{threshold}{A vector of threshold values for the centroid
-    shrinkage.
-    Default is a set of 30 values chosen by the software}
+    shrinkage.Default is a set of 30 values chosen by the software}
   \item{n.threshold}{Number of threshold values desired (default 30)}
   \item{scale.sd}{Scale each threshold by the wthin class standard
     deviations? Default: true}
@@ -135,5 +134,4 @@ results2 <- pamr.train(mydata,sample.subset=(mydata$y!=4))
 results3 <- pamr.train(mydata,gene.subset=1:500)
 
 }
-\keyword{ }
 

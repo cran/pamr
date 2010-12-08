@@ -3,7 +3,7 @@
 \title{ A function giving prediction information,
   from a nearest shrunken centroid fit.}
 \description{A function giving prediction information,
-  from a nearest shrunken centroid fit.}
+  from a nearest shrunken centroid fit}
 
 
 \usage{
@@ -35,8 +35,6 @@ pamr.predict(fit, newx, threshold, type= c("class", "posterior", "centroid", "no
 }
 
 
-\references{ }
-
 
 
 
@@ -52,5 +50,4 @@ mycv <- pamr.cv(mytrain,mydata)
 pamr.predict(mytrain, mydata$x , threshold=1)
  
 }
-\keyword{ }
 
