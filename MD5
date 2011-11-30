@@ -1,4 +1,4 @@
-5e7379a013baaf3151f0dabe0b156649 *DESCRIPTION
+dbc8794eaa70983e6e9d9929081e3df0 *DESCRIPTION
 430b42ff6faacf7904a281b81ce52da1 *INDEX
 96444841f1eca384bc196716d474346a *NAMESPACE
 9d0c5d3d054bc9de875bc828b0bcf57c *R/allknnimp.R
@@ -33,7 +33,7 @@ f1ce85500d3cf3a421d2d5a28e0f12b9 *R/pamr.predict.R
 ab425320d96b52b1e48e85cb0b54eb40 *R/pamr.survfuns.R
 9bc80d974889da5cc972c0bf9b640a99 *R/pamr.to.excel.R
 a03b7b7a5798e384fb14c64cb6390b23 *R/pamr.train.R
-2ee9c613c83a61e801337d6a24801efa *R/pamr.xlfuns.R
+f57399b3f8b59ba9398339254212b2df *R/pamr.xlfuns.R
 b1716c64ae0996cf8580a191fbaa5d8c *R/permute.rows.R
 61c7b7912cbf1a427638d0449badb6ed *R/print.nsc.R
 fb42d5cf3756816e3f17fdbfdda70ec7 *R/print.nsccv.R
@@ -44,7 +44,7 @@ ddae48d3df6c057148c51d2e8ffecd51 *R/roc.R
 1dbf2b705691fbdd2fb0b5b26986c941 *R/softshrink.R
 a1f4d9a9fd31b8b664b6f75dccaaa0ee *R/which.is.max.R
 e8096e76722eca5b2df0acfe386c0db3 *data/datalist
-46788e78b4f7c98041ba5a744f46c817 *data/khan.rda
+88b7517fd39b66b7f202fa66504c8cd5 *data/khan.rda
 93cea22b49980967344cbdb0cfc3e1c0 *doc/Changes.txt
 161ed8e396be50c76cb06b7f605eada4 *doc/geneplot.tex
 01105edbe3bfaf5c11f4e460aa14e5e7 *doc/order.restricted.R
@@ -60,7 +60,7 @@ d3a2f25e50020835fd41042f6a08bcc8 *man/pamr.confusion.survival.Rd
 dc4cfa31f9d9b53d0cf8cbd63b3297ab *man/pamr.from.excel.Rd
 445b10ab578ddabc7c99aa0a883e9dec *man/pamr.geneplot.Rd
 d122451cf474f3d94aaf24c253490a22 *man/pamr.indeterminate.Rd
-c2f1bedaf9fa6a18e2ef90bcbe021fb8 *man/pamr.internal.Rd
+986bdcaab9b3975b309e00515dea2c11 *man/pamr.internal.Rd
 7f42adc09df55d55a649b0fe4d8c4747 *man/pamr.knnimpute.Rd
 f1d84c4b36a7b0c48586e89ffe79d52a *man/pamr.listgenes.Rd
 b50ae66b1d58f54a3afdb84c5a31e6f1 *man/pamr.makeclasses.Rd

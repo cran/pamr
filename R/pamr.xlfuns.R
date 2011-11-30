@@ -1,6 +1,6 @@
 pamr.options <- list(debug=TRUE, #whether to turn on debugging or not
                      err.file=ifelse(.Platform$OS.type=="windows", "C:/pamrtrace.txt", "pamrtrace.txt"),
-                     image.file=ifelse(.Platform$OS.type=="windows", "C:/pamrimage.Rdata", "pamrimage.Rdata"),                     
+                     image.file=ifelse(.Platform$OS.type=="windows", "C:/pamrimage.Rdata", "pamrimage.Rdata"),
                      reserved.class.label="Unspecified")
 
 ##
@@ -55,7 +55,7 @@ pamr.xl.get.soft.class.labels  <- function(fit, survival.times, censoring.status
   group <-apply(proby,1,which.is.max)
   return(group)
 }
-    
+
 
 pamr.xl.compute.offset <- function(data, offset.percent=50, prior=prior){
   x <- data$x
@@ -78,24 +78,28 @@ pamr.xl.compute.offset <- function(data, offset.percent=50, prior=prior){
   offset  <- quantile(sd, offset.percent/100)
   return(offset)
 }
-#NOTE? i added xtrain as an agrument to make R CMD check happy.
-#Will this work if it is null?
-pamr.xl.get.offset  <- function(x.train, pamr.xl.data, pamr.xl.training.parameters) {
-  if (exists("x.train")) {
-    temp=x.train$offset
- if(is.null(temp)){temp=0}
-    return (temp)
-  } else {
-    return (pamr.xl.compute.offset(pamr.xl.data,
-                                   offset.percent=pamr.xl.training.parameters$offset.percent,
-                                   prior=pamr.xl.training.parameters$prior))
+
+pamr.xl.get.offset  <- function() {
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    pamr.xl.data <- get("pamr.xl.data", envir=.GlobalEnv)
+    x.train <- get("x.train", envir=.GlobalEnv)
+    if (exists("x.train")) {
+        temp=x.train$offset
+        if(is.null(temp)){temp=0}
+        return (temp)
+    } else {
+        return (pamr.xl.compute.offset(pamr.xl.data,
+                                       offset.percent=pamr.xl.training.parameters$offset.percent,
+                                       prior=pamr.xl.training.parameters$prior))
   }
 }
 
-pamr.xl.derive.adjusted.prior  <- function(prior, data, pamr.xl.survival.setting, pamr.xl.training.parameters) {
+pamr.xl.derive.adjusted.prior  <- function(prior, data) {
   ## Check this next code in if statement. For survival setting, it is always uniform
   ## and so the check may not be needed. Anyway, needs cleaning....
-  if (pamr.xl.survival.setting) {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    if (pamr.xl.survival.setting) {
     s  <-  pamr.xl.get.uniform.prior(data, nclasses=pamr.xl.training.parameters$ngroup.survival)
     return (list(prior=s, prior.name="Uniform Prior"))
   } else {
@@ -109,7 +113,7 @@ pamr.xl.derive.adjusted.prior  <- function(prior, data, pamr.xl.survival.setting
       if (sum(temp*temp) < pamr.xl.training.parameters$epsilon) {
         return (list (prior=s, prior.name="Uniform Prior"))
       } else {
-        return (list (prior=prior, prior.name="Custom Prior"))      
+        return (list (prior=prior, prior.name="Custom Prior"))
       }
     }
   }
@@ -137,8 +141,11 @@ pamr.xl.derive.adjusted.prior  <- function(prior, data, pamr.xl.survival.setting
 
 
 
-pamr.xl.get.default.training.parameters <- function(data,pamr.xl.survival.setting, pamr.xl.regression.setting) {
-  if (pamr.xl.survival.setting) {
+pamr.xl.get.default.training.parameters <- function(data) {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.regression.setting <- get("pamr.xl.regression.setting", envir=.GlobalEnv)
+
+    if (pamr.xl.survival.setting) {
     return (list(offset.proportion=0.5,
                  offset.percent=50,
                  prior=NULL,
@@ -169,7 +176,7 @@ if(!pamr.xl.survival.setting & !pamr.xl.regression.setting){
                  epsilon=1e-7,
                  ngroup.survival=NULL,
                  n.components=NULL))
-                 
+
   }
 }
 
@@ -190,8 +197,12 @@ pamr.xl.get.sample.prior  <- function(data) {
   return(w/sum(w))
 }
 
-pamr.xl.get.class.names  <- function(pamr.xl.survival.setting, pamr.xl.training.parameters, pamr.xl.data) {
-  if (pamr.xl.survival.setting) {
+pamr.xl.get.class.names  <- function() {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    pamr.xl.data <- get("pamr.xl.data", envir=.GlobalEnv)
+
+    if (pamr.xl.survival.setting) {
     return(as.character(1:pamr.xl.training.parameters$ngroup.survival))
   } else {
     return(names(table(pamr.xl.data$y)))
@@ -208,29 +219,34 @@ pamr.xl.get.class.names  <- function(pamr.xl.survival.setting, pamr.xl.training.
 #  }
 #}
 
-pamr.xl.get.class.labels  <- function(pamr.xl.data) {
+pamr.xl.get.class.labels  <- function() {
+    pamr.xl.data <- get("pamr.xl.data", envir=.GlobalEnv)
     return(pamr.xl.data$y)
 }
 
 
-pamr.xl.get.number.of.classes  <- function(pamr.xl.data,pamr.xl.survival.setting, pamr.xl.training.parameters) {
-  if (pamr.xl.survival.setting) {
-    return(pamr.xl.training.parameters$ngroup.survival)
-  } else {
-    return(length(names(table(pamr.xl.data$y))))
-  }
+pamr.xl.get.number.of.classes  <- function() {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    pamr.xl.data <- get("pamr.xl.data", envir=.GlobalEnv)
+
+    if (pamr.xl.survival.setting) {
+        return(pamr.xl.training.parameters$ngroup.survival)
+    } else {
+        return(length(names(table(pamr.xl.data$y))))
+    }
 }
 
 #pamr.xl.process.data <- function(use.old.version=FALSE) {
 #
-#  res <- list(x=pamr.xl.raw.data, y=pamr.xl.class.labels, genenames=pamr.xl.gene.names, 
+#  res <- list(x=pamr.xl.raw.data, y=pamr.xl.class.labels, genenames=pamr.xl.gene.names,
 #              geneid=pamr.xl.gene.ids, samplelabels=pamr.xl.sample.labels,
 #              batchlabels=pamr.xl.batch.labels, survival.time=pamr.xl.survival.times,
 #              censoring.status=pamr.xl.censoring.status)
-#  
+#
 #  if (pamr.xl.data.has.missing.values) {
 #    if (use.old.version) {
-#      res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)      
+#      res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)
 #    } else {
 #      res <- pamr.knnimpute(res, k = pamr.xl.knn.neighbors)
 #    }
@@ -238,11 +254,22 @@ pamr.xl.get.number.of.classes  <- function(pamr.xl.data,pamr.xl.survival.setting
 #  return(res)
 #}
 
-pamr.xl.process.data <- function(pamr.xl.class.labels,pamr.xl.raw.data, pamr.xl.gene.names, pamr.xl.gene.ids, pamr.xl.sample.labels, pamr.xl.batch.labels, pamr.xl.censoring.status,pamr.xl.data.has.missing.values,  pamr.xl.knn.neighbors, pamr.xl.survival.times,use.old.version=FALSE) {
+pamr.xl.process.data <- function(use.old.version=FALSE) {
 
 # in this new version, the outcome is always stored in y
 # the survival times component  is no longer used. Superpc now handles
 # both the surival and regression problems
+
+    pamr.xl.class.labels <- get("pamr.xl.class.labels", envir=.GlobalEnv)
+    pamr.xl.survival.times <- get("pamr.xl.survival.times" , envir=.GlobalEnv)
+    pamr.xl.raw.data <- get("pamr.xl.raw.data", envir=.GlobalEnv)
+    pamr.xl.gene.names <- get("pamr.xl.gene.names", envir=.GlobalEnv)
+    pamr.xl.gene.ids <- get("pamr.xl.gene.ids", envir=.GlobalEnv)
+    pamr.xl.sample.labels <- get("pamr.xl.sample.labels", envir=.GlobalEnv)
+    pamr.xl.batch.labels <- get("pamr.xl.batch.labels", envir=.GlobalEnv)
+    pamr.xl.censoring.status <- get("pamr.xl.censoring.status", envir=.GlobalEnv)
+    pamr.xl.data.has.missing.values <- get("pamr.xl.data.has.missing.values", envir=.GlobalEnv)
+    pamr.xl.knn.neighbors <- get("pamr.xl.knn.neighbors", envir=.GlobalEnv)
 
  if(!is.null(pamr.xl.class.labels)){
     y=pamr.xl.class.labels
@@ -251,11 +278,14 @@ pamr.xl.process.data <- function(pamr.xl.class.labels,pamr.xl.raw.data, pamr.xl.
     y=pamr.xl.survival.times
    }
 
-  res <- list(x=pamr.xl.raw.data, y=y, genenames=pamr.xl.gene.names,
+
+
+
+ res <- list(x=pamr.xl.raw.data, y=y, genenames=pamr.xl.gene.names,
               geneid=pamr.xl.gene.ids, samplelabels=pamr.xl.sample.labels,
-              batchlabels=pamr.xl.batch.labels, 
+              batchlabels=pamr.xl.batch.labels,
               censoring.status=pamr.xl.censoring.status)
-  
+
   if (pamr.xl.data.has.missing.values) {
     if (use.old.version) {
       res <- pamr.knnimpute.old(res, k = pamr.xl.knn.neighbors)
@@ -264,7 +294,7 @@ pamr.xl.process.data <- function(pamr.xl.class.labels,pamr.xl.raw.data, pamr.xl.
     }
   }
   return(res)
-}   
+}
 
 
 pamr.xl.compute.cv.confusion  <- function (fit, cv.results, threshold) {
@@ -311,8 +341,11 @@ pamr.xl.compute.confusion  <- function (fit, threshold) {
   return(list(confusion.matrix=tt, overall.error=overall.err))
 }
 
-pamr.xl.is.a.subset  <- function(a, y,pamr.xl.survival.setting, pamr.xl.training.parameters) {
-  if (pamr.xl.survival.setting) {
+pamr.xl.is.a.subset  <- function(a, y) {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+
+    if (pamr.xl.survival.setting) {
     x  <- as.character(1:pamr.xl.training.parameters$ngroup.survival)
   } else {
     x  <- a$y
@@ -344,7 +377,7 @@ pamr.xl.listgenes.compute  <- function (fit, data, threshold, fitcv=NULL,  genen
   aa <- pamr.predict(fit, x, threshold = threshold, type = "nonzero")
   cen <- pamr.predict(fit, x, threshold = threshold, type = "cen")
   d <- (cen - fit$centroid.overall)[aa, ]/fit$sd[aa]
-  
+
   gene.order <- order(-apply(abs(d), 1, max))
   d <- round(d, 4)
   g <- gnames[aa]
@@ -397,9 +430,15 @@ if(!is.null(fitcv)){
               gene.scores = res[ , -(1:2)]))
   ##print(res, quote = FALSE)
 }
-pamr.xl.plot.test.probs.compute  <- function(fit, new.x, newx.classes, missing.class.label, 
-	threshold, pamr.xl.training.parameters, pamr.xl.survival.setting,pamr.xl.test.survival.times,pamr.xl.test.censoring.status, sample.labels=NULL) {
-  predicted.probs  <- pamr.xl.predict.test.probs(fit, new.x, threshold=threshold)
+pamr.xl.plot.test.probs.compute  <- function(fit, new.x, newx.classes, missing.class.label,
+	threshold, sample.labels=NULL) {
+
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    pamr.xl.test.survival.times <- get("pamr.xl.test.survival.times", envir=.GlobalEnv)
+    pamr.xl.test.censoring.status <- get("pamr.xl.test.censoring.status", envir=.GlobalEnv)
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+
+    predicted.probs  <- pamr.xl.predict.test.probs(fit, new.x, threshold=threshold)
   py  <- pamr.xl.predict.test.class.only(fit, new.x, threshold=threshold)
 
   if (pamr.xl.survival.setting & !is.null(pamr.xl.test.survival.times) ) {
@@ -425,7 +464,7 @@ pamr.xl.plot.test.probs.compute  <- function(fit, new.x, newx.classes, missing.c
   } else {
     training.classes  <- levels(factor(fit$y))
   }
-  
+
   return (list(x = 1:n,
                y = t(pp),
                x.label = "Sample",
@@ -436,12 +475,14 @@ pamr.xl.plot.test.probs.compute  <- function(fit, new.x, newx.classes, missing.c
                y.dummy = vector(length=2, mode="numeric"),
                panel.names = levels(factor(actual.classes)),
                x.names = ss))
-}  
+}
 
 
 
-pamr.xl.plot.training.error.compute  <- function(trained.object,pamr.xl.survival.setting) {
-  if (pamr.xl.survival.setting) {
+pamr.xl.plot.training.error.compute  <- function(trained.object) {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+
+    if (pamr.xl.survival.setting) {
     n  <- length(trained.object$survival.time)
   } else {
     n  <- length(trained.object$y)
@@ -467,14 +508,14 @@ pamr.xl.plotcen.compute  <- function(fit, data, threshold) {
   o <- drop(abs(dif) %*% rep(1, nc)) > 0
   d <- dif[o,  ]
   nd <- sum(o)
-  genenames <- genenames[o]  
+  genenames <- genenames[o]
   xx <- x[o,  ]
   oo <- order(apply(abs(d), 1, max))
   d <- d[oo,  ]
   genenames <- genenames[oo]
   win.metafile()
   par(mar = c(1, 5, 1, 1), col = 1)
-  plot(rep(2, nd) + d[, 1], 1:nd, xlim = c(0, 2*nc+1), ylim = c(1, nd + 3), 
+  plot(rep(2, nd) + d[, 1], 1:nd, xlim = c(0, 2*nc+1), ylim = c(1, nd + 3),
        type = "n", xlab = "", ylab = "", axes = FALSE)
   box()
   abline(h = seq(nd), lty = 3, col = 7)
@@ -495,8 +536,9 @@ pamr.xl.plotcen.compute  <- function(fit, data, threshold) {
 
   return(TRUE)
 }
-pamr.xl.plotcv.compute  <- function(aa,pamr.xl.survival.setting) {
-  n <- nrow(aa$yhat)
+pamr.xl.plotcv.compute  <- function(aa) {
+    pamr.xl.survival.setting <- get("pamr.xl.survival.setting", envir=.GlobalEnv)
+    n <- nrow(aa$yhat)
   y <- aa$y
   if(!is.null(aa$newy)) {
     y <- aa$newy[aa$sample.subset]
@@ -524,7 +566,7 @@ pamr.xl.plotcv.compute  <- function(aa,pamr.xl.survival.setting) {
   } else {
     p.values  <- NULL
   }
-  
+
   return (list(x = aa$threshold,
                y = aa$error,
                x.label = "Threshold",
@@ -534,10 +576,9 @@ pamr.xl.plotcv.compute  <- function(aa,pamr.xl.survival.setting) {
                y.ytop = aa$size,
                cv.err = t(err2),
                cv.legend = dimnames(table(y))[[1]]))
-               
+
 }
-#CHECK is aa correct?
-pamr.xl.plotcvprob.compute  <- function(aa,fit, data, threshold) {
+pamr.xl.plotcvprob.compute  <- function(fit, data, threshold) {
   ii <- (1:length(fit$threshold))[fit$threshold > threshold]
   ii <- ii[1]
   ss <- data$samplelabels
@@ -546,7 +587,7 @@ pamr.xl.plotcvprob.compute  <- function(aa,fit, data, threshold) {
     y <- fit$y[fit$sample.subset]
   }
   if(!is.null(fit$newy)) {
-    y <- fit$newy[aa$sample.subset]
+    y <- fit$newy[fit$sample.subset]
   }
   o <- order(y)
   y <- y[o]
@@ -572,7 +613,7 @@ pamr.xl.plotcvprob.compute  <- function(aa,fit, data, threshold) {
                x.dummy = vector(length=2, mode="numeric"),
                y.dummy = vector(length=2, mode="numeric"),
                x.names = ss))
-  
+
 #   for(j in 1:nc) {
 #     points(1:n, ppp[, j], col = j + 1)
 #   }
@@ -581,7 +622,7 @@ pamr.xl.plotcvprob.compute  <- function(aa,fit, data, threshold) {
 #   }
 #   h <- c(0, table(y))
 #   for(j in 2:(nc + 1)) {
-#     text(sum(h[1:(j - 1)]) + 0.5 * h[j], 1.02, label = levels(y)[j - 
+#     text(sum(h[1:(j - 1)]) + 0.5 * h[j], 1.02, label = levels(y)[j -
 #                                                  1], col = j)
 #   }
 #   abline(h = 1)
@@ -595,8 +636,9 @@ pamr.xl.predict.test.class<- function(fit, newx, threshold, test.class.labels) {
   return(list(confusion.matrix=table(test.class.labels, predicted), predicted=as.vector(predicted)))
 }
 
-pamr.xl.predict.test.surv.class <- function(fit, newx, threshold, survival.times, censoring.status,pamr.xl.training.parameters) {
-  predicted  <- pamr.predict(fit, newx, threshold, type="class")
+pamr.xl.predict.test.surv.class <- function(fit, newx, threshold, survival.times, censoring.status) {
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    predicted  <- pamr.predict(fit, newx, threshold, type="class")
   soft.probs  <- pamr.surv.to.class2(survival.times, censoring.status,
                                      n.class=pamr.xl.training.parameters$ngroup.survival)$prob
   w  <- pamr.test.errors.surv.compute(soft.probs, predicted)
@@ -612,17 +654,19 @@ pamr.xl.predict.test.probs  <- function(fit, newx, threshold) {
   return(t(predicted))
 }
 
-pamr.xl.test.data.impute  <- function(x, k, pamr.xl.knn.neighbors,use.old.version=FALSE) {
-  if (use.old.version) {
-    res <- pamr.knnimpute.old(list(x=x), k = pamr.xl.knn.neighbors) 
+pamr.xl.test.data.impute  <- function(x, k, use.old.version=FALSE) {
+    pamr.xl.knn.neighbors <- get("pamr.xl.knn.neighbors", envir=.GlobalEnv)
+    if (use.old.version) {
+    res <- pamr.knnimpute.old(list(x=x), k = pamr.xl.knn.neighbors)
   } else {
     res  <- pamr.knnimpute(list(x=x), k = pamr.xl.knn.neighbors)
   }
   return(res$x)
 }
 
-pamr.xl.test.errors.surv.compute <- function(fit, newx, threshold=fit$threshold, survival.times, censoring.status, pamr.xl.training.parameters) {
-  prediction.errs  <- vector(mode="numeric", length=length(threshold))
+pamr.xl.test.errors.surv.compute <- function(fit, newx, threshold=fit$threshold, survival.times, censoring.status) {
+    pamr.xl.training.parameters <- get("pamr.xl.training.parameters", envir=.GlobalEnv)
+    prediction.errs  <- vector(mode="numeric", length=length(threshold))
   soft.probs  <- pamr.surv.to.class2(survival.times, censoring.status,
                                      n.class=pamr.xl.training.parameters$ngroup.survival)$prob
   for (i in 1:length(threshold)) {
@@ -630,7 +674,7 @@ pamr.xl.test.errors.surv.compute <- function(fit, newx, threshold=fit$threshold,
     w  <- pamr.test.errors.surv.compute(soft.probs, predicted)
     prediction.errs[i]  <- w$error
   }
-  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error"))  
+  return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error"))
 }
 
 
@@ -642,14 +686,14 @@ pamr.xl.test.errors.compute  <- function(fit, newx, newx.classes, threshold=fit$
 ## Note: n is assumed to be nonzero! Check before calling!
   actual.classes  <- newx.classes
   prediction.errs  <- vector(mode="numeric", length=length(threshold))
-  
+
   for(i in 1:length(threshold)){
     t <- pamr.predict(fit,newx,threshold=threshold[i],type="class",...)
     prediction.errs[i]  <- length(which(t != actual.classes)) / n
   }
-  
+
   return(list(x=threshold, y=prediction.errs, x.label="Threshold", y.label="Test Error"))
-  
+
 }
 
 pamr.xl.transform.class.labels  <- function(x) {
@@ -658,9 +702,14 @@ pamr.xl.transform.class.labels  <- function(x) {
   return(y)
 }
 
-pamr.xl.transform.data <- function(data,pamr.xl.take.cube.root,pamr.xl.batch.labels.present, pamr.xl.center.columns, pamr.xl.scale.columns) {
+pamr.xl.transform.data <- function(data) {
 
-  if (pamr.xl.take.cube.root) {
+    pamr.xl.take.cube.root <- get("pamr.xl.take.cube.root", envir=.GlobalEnv)
+    pamr.xl.batch.labels.present <- get("pamr.xl.batch.labels.present", envir=.GlobalEnv)
+    pamr.xl.center.columns <- get("pamr.xl.center.columns", envir=.GlobalEnv)
+    pamr.xl.scale.columns <- get("pamr.xl.scale.columns",  envir=.GlobalEnv)
+
+    if (pamr.xl.take.cube.root) {
     data$x = pamr.cube.root(data$x)
   }
 
@@ -679,8 +728,13 @@ pamr.xl.transform.data <- function(data,pamr.xl.take.cube.root,pamr.xl.batch.lab
   return (data)
 }
 
-pamr.xl.transform.test.data <- function(test.x, pamr.xl.take.cube.root,pamr.xl.center.columns,  pamr.xl.scale.columns) {
+pamr.xl.transform.test.data <- function(test.x) {
   res <- test.x
+
+    pamr.xl.take.cube.root <- get("pamr.xl.take.cube.root", envir=.GlobalEnv)
+    pamr.xl.center.columns <- get("pamr.xl.center.columns", envir=.GlobalEnv)
+    pamr.xl.scale.columns <- get("pamr.xl.scale.columns",  envir=.GlobalEnv)
+
   if (pamr.xl.take.cube.root) {
     res = pamr.cube.root(res)
   }
@@ -730,30 +784,30 @@ pamr.xl.plotsurvival.strata <- function(fit, data) {
   n.class <- length(unique(group))
   junk <- survfit(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))
   junk2 <- coxph(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))
-  
+
   pv <- 1-pchisq(2*(junk2$loglik[2]-junk2$loglik[1]),df=n.class-1)
-  
+
   if(!is.null(fit$cutoffs.survival)){
     labels <- rep(NULL,n.class)
     labels[1] <- paste("(1)   ","<= ", round(fit$cutoffs.survival[1],2),sep="")
     if(n.class>2){
       for(i in 2:(n.class-1)){
         labels[i] <- paste("(",as.character(i),")  ", " > ",
-                           round(fit$cutoffs.survival[i-1],2), "  & <= ", 
+                           round(fit$cutoffs.survival[i-1],2), "  & <= ",
                            round(fit$cutoffs.survival[i],2), sep="")
       }}
     labels[n.class] <-  paste("(",as.character(n.class),")  ", " > ",round(fit$cutoffs.survival[n.class-1],2),sep="")
   }
-  
+
   else{labels <- as.character(1:n.class)}
-  
+
   win.metafile()
   plot(junk, col = 2:(2 + n.class - 1), xlab = "Time", ylab = "Probability of survival",
        main="Survival Strata Plot")
   legend(.01* max(fit$survival.time), 0.2, col = 2:(2 + n.class -
                                              1), lty = rep(1, n.class), legend = labels)
   text(0.1 * max(fit$survival.time), .25, paste("pvalue=",as.character(round(pv,4))))
-  
+
   dev.off()
   return(TRUE)
 }
