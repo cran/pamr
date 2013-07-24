@@ -9,20 +9,20 @@ this.call <- match.call()
 
   y= data$y
   m=nrow(data$x)
-  
+
  nclass=length(table(y))
 
   threshold <- trained.obj$threshold
  n.threshold=length(threshold)
-  
-  tt <- scale((trained.obj$centroids - trained.obj$centroid.overall)/trained.obj$sd, FALSE, 
+
+  tt <- scale((trained.obj$centroids - trained.obj$centroid.overall)/trained.obj$sd, FALSE,
         trained.obj$threshold.scale * trained.obj$se.scale)
 
 
   ttstar <- array(NA,c(m,nperms,nclass))
 results=NULL
 pi0=NULL
-  
+
 }
   if(xl.mode=="onetime" |  xl.mode=="lasttime"){
  y=xl.prevfit$y
@@ -58,12 +58,12 @@ pi0=xl.prevfit$pi0
     ystar <- sample(y)
     data2 <- data
     data2$y <- ystar
-    foo<-pamr.train(data2, threshold=0, scale.sd = trained.obj$scale.sd, 
+    foo<-pamr.train(data2, threshold=0, scale.sd = trained.obj$scale.sd,
     threshold.scale =  trained.obj$threshold.scale,
-    se.scale = trained.obj$se.scale, offset.percent = 50, hetero = trained.obj$hetero, 
+    se.scale = trained.obj$se.scale, offset.percent = 50, hetero = trained.obj$hetero,
 prior = trained.obj$prior,  sign.contrast = trained.obj$sign.contrast)
 
-    
+
    sdstar=foo$sd-foo$offset+trained.obj$offset
     ttstar[,i,] =scale((foo$centroids - foo$centroid.overall)/sdstar, FALSE,
         foo$threshold.scale * foo$se.scale)
@@ -80,7 +80,7 @@ for(j in 1:n.threshold){
  nobs=sum(drop((abs(tt)-threshold[j] > 0) %*% rep(1, ncol(tt))) > 0)
 
  temp=abs(ttstar)-threshold[j] >0
- temp2=rowSums(temp, dim=2)
+ temp2=rowSums(temp, dims=2)
  nnull=colSums(temp2>0)
   fdr[j]=median(nnull)/nobs
   fdr90[j]=quantile(nnull,.9)/nobs
@@ -90,18 +90,18 @@ for(j in 1:n.threshold){
 
   q1 <- quantile(ttstar, .25)
   q2 <- quantile(ttstar, .75)
-  
+
   pi0 <- min(sum( tt> q1 & tt< q2 )/(.5*m*nclass) ,1 )
-  
+
   fdr <- fdr*pi0
 fdr90=fdr90*pi0
 fdr=pmin(fdr,1)
 fdr90=pmin(fdr90,1)
-  
+
   results <- cbind(threshold, ngenes, fdr*ngenes, fdr, fdr90)
-om=is.na(fdr) 
+om=is.na(fdr)
 results=results[!om,]
-  
+
 
  dimnames(results) <- list(NULL,c("Threshold", "Number of significant genes", "Median number of null genes",
 "Median FDR", "90th percentile of FDR"))

@@ -7,7 +7,8 @@ survival times.}
 
 
 \usage{
-pamr.surv.to.class2(y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens)
+pamr.surv.to.class2(y, icens, cutoffs=NULL, n.class=NULL, class.names=NULL,
+                    newy=y, newic=icens)
 }
 
 \arguments{

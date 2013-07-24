@@ -67,7 +67,8 @@ a<-pamr.train(d)
 # decorrelate training and test x wrt adjusting predictors, then make
 #predictions for test set
 
-temp<-pamr.decorrelate(x,adjusting.predictors, xtest=xtest, adjusting.predictors.test=adjusting.predictors.test)
+temp <- pamr.decorrelate(x,adjusting.predictors, xtest=xtest,
+                         adjusting.predictors.test=adjusting.predictors.test)
 
 d=list(x=temp$x.adj,y=y)
 a<-pamr.train(d)

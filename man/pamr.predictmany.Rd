@@ -7,8 +7,8 @@
 
 
 \usage{
-pamr.predictmany(fit, newx, threshold=fit$threshold, prior =fit$prior, threshold.scale = fit$
-        threshold.scale, ...)
+pamr.predictmany(fit, newx, threshold = fit$threshold, prior = fit$prior,
+                 threshold.scale = fit$threshold.scale, ...)
 }
 
 \arguments{
