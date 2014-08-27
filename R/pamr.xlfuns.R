@@ -513,7 +513,7 @@ pamr.xl.plotcen.compute  <- function(fit, data, threshold) {
   oo <- order(apply(abs(d), 1, max))
   d <- d[oo,  ]
   genenames <- genenames[oo]
-  win.metafile()
+  ##win.metafile()
   par(mar = c(1, 5, 1, 1), col = 1)
   plot(rep(2, nd) + d[, 1], 1:nd, xlim = c(0, 2*nc+1), ylim = c(1, nd + 3),
        type = "n", xlab = "", ylab = "", axes = FALSE)
@@ -528,6 +528,9 @@ pamr.xl.plotcen.compute  <- function(fit, data, threshold) {
   }
   g <- substring(genenames, 1, 20)
   text(rep(0, nd), seq(nd), label = g, cex = 0.4, adj = 0, col = 1)
+  if (.Platform$OS.type == "windows") {
+      savePlot("", type="wmf")
+  }
   dev.off()
 #  pamr.plot.y <<- matrix(d, nrow=dim(d)[1])
 #  pamr.plot.x <<- seq(nd)
@@ -753,13 +756,16 @@ pamr.xl.transform.test.data <- function(test.x) {
 pamr.xl.plotsurvival<- function(fit, data, threshold) {
   group  <- pamr.predict(fit, data$x, threshold=threshold)
   ## plots Kaplan-Meier curves stratified by "group"
-  require(survival)
+#  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(fit$survival.time, fit$censoring.status)~as.factor(group))
-  win.metafile()
+  ## win.metafile()
   plot(junk, col=2:(2+n.class-1) ,xlab= "Time", ylab="Probability of survival", main="Survival Plot")
   legend(.8*max(fit$survival.time),.9, col=2:(2+n.class-1), lty=rep(1,n.class),
          legend=as.character(1:n.class))
+  if (.Platform$OS.type == "windows") {
+      savePlot("", type="wmf")
+  }
   dev.off()
   return(TRUE)
 }
@@ -767,20 +773,23 @@ pamr.xl.plotsurvival<- function(fit, data, threshold) {
 pamr.xl.plotsurvival.test <- function(fit, newx, survival.time, censoring.status, threshold) {
   group  <- pamr.predict(fit, newx, threshold=threshold)
   ## plots Kaplan-Meier curves stratified by "group"
-  require(survival)
+  #require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(survival.time, censoring.status)~as.factor(group))
-  win.metafile()
+  ## win.metafile()
   plot(junk, col=2:(2+n.class-1) ,xlab= "Time", ylab="Probability of survival", main="Test Survival Plot")
   legend(.8*max(survival.time),.9, col=2:(2+n.class-1), lty=rep(1,n.class),
          legend=as.character(1:n.class))
+  if (.Platform$OS.type == "windows") {
+      savePlot("", type="wmf")
+  }
   dev.off()
   return(TRUE)
 }
 
 pamr.xl.plotsurvival.strata <- function(fit, data) {
   group <-apply(fit$proby,1,which.is.max)
-  require(survival)
+  #require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))
   junk2 <- coxph(Surv(data$survival.time, data$censoring.status) ~ as.factor(group))
@@ -801,13 +810,15 @@ pamr.xl.plotsurvival.strata <- function(fit, data) {
 
   else{labels <- as.character(1:n.class)}
 
-  win.metafile()
+  ##win.metafile()
   plot(junk, col = 2:(2 + n.class - 1), xlab = "Time", ylab = "Probability of survival",
        main="Survival Strata Plot")
   legend(.01* max(fit$survival.time), 0.2, col = 2:(2 + n.class -
                                              1), lty = rep(1, n.class), legend = labels)
   text(0.1 * max(fit$survival.time), .25, paste("pvalue=",as.character(round(pv,4))))
-
+  if (.Platform$OS.type == "windows") {
+      savePlot("", type="wmf")
+  }
   dev.off()
   return(TRUE)
 }

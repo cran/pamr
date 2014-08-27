@@ -25,7 +25,7 @@ pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.na
 # n.class - number of classes to create
 # class.names - optional vector of names for each class
 {
-        require(survival)
+ #       require(survival)
         if (is.null(cutoffs) & is.null(n.class)) {
                 stop("Must specify either cutoffs or n.class")
         }
@@ -130,7 +130,7 @@ kmeans2 <- function(x, ..., n.rep=10)
 # Performs k-means clustering multiple times from different starting
 # points
 {
-        require(cluster)
+#        require(cluster)
         wss <- Inf
         for (i in 1:n.rep) {
                 cur.fit <- kmeans(x, ...)
@@ -302,7 +302,7 @@ return(tt)
 }
 pamr.plotsurvival <- function(group, survival.time, censoring.status){
   # plots Kaplan-Meier curves stratified by "group"
-  require(survival)
+#  require(survival)
   n.class <- length(unique(group))
   junk <- survfit(Surv(survival.time, censoring.status)~as.factor(group))
   junk2 <- coxph(Surv(survival.time, censoring.status) ~ as.factor(group))      
@@ -324,7 +324,7 @@ return()
                 return(1 - pchisq(loglik, ngroup.survival - 1))
         }
 order.class.survival <- function(a, survival.time, censoring.status){
-require(survival)
+#require(survival)
 
 #orders the classes specified in "a" by median survival time, from
 #shortest to longest

@@ -1,6 +1,5 @@
 useDynLib(pamr)
-
-#import(survival, cluster)
+import(survival, cluster)
 export(pamr.adaptthresh, 
         pamr.batchadjust, 
         pamr.confusion, 
