@@ -1,7 +1,6 @@
-41e2318d09a4bdf433a676b9c7f2f527 *DESCRIPTION
+8d002c87aad7e9eaa60bc9b524552daf *DESCRIPTION
 430b42ff6faacf7904a281b81ce52da1 *INDEX
-5aeea96b92ff7b9eb781fe1adb2b396d *NAMESPACE
-9d0c5d3d054bc9de875bc828b0bcf57c *R/allknnimp.R
+a013f5a35633b0ac531127f2199d0148 *NAMESPACE
 3e9a5a7e57f9186f93a6e6e3b6e3f231 *R/balanced.folds.R
 a9fa703b4c6ffaccb04deb2eba336b0b *R/descendants.R
 149e3ba609aa2df762c95357513d0d7d *R/diag.disc.R
@@ -15,10 +14,8 @@ d5e65f72eba8d21cdcc0822a03783db6 *R/pamr.cube.root.R
 7eb0a7ed5298e7c130bf0de7fffe5693 *R/pamr.cv.R
 be011eb4978494c79e3294b65eb511df *R/pamr.decorrelate.R
 f418dda5b8684a29b5c1130a30a10411 *R/pamr.fdr.R
-16ab764c3e3e4d2ee48defa079a2a563 *R/pamr.from.excel.R
 218250beddb0346957d7dbd5f7d22663 *R/pamr.geneplot.R
 7cf30def6c45e7b33da029fcddba7e3a *R/pamr.indeterminate.R
-ac53e5e2e3200fd58c297c2e36908e99 *R/pamr.knnimpute.R
 947d0bd705caaac28b6fe68123a3bb28 *R/pamr.listgenes.R
 7f77199047b031973b43c11069c41c3c *R/pamr.makeclasses.R
 0e01cbdc69f7b1911acc9609b5b14280 *R/pamr.menu.R
@@ -33,7 +30,6 @@ f1ce85500d3cf3a421d2d5a28e0f12b9 *R/pamr.predict.R
 547018d9891c13beccf26e849273464d *R/pamr.survfuns.R
 9bc80d974889da5cc972c0bf9b640a99 *R/pamr.to.excel.R
 a03b7b7a5798e384fb14c64cb6390b23 *R/pamr.train.R
-4d38b4cab23291ab7a1faf5bb901cc49 *R/pamr.xlfuns.R
 b1716c64ae0996cf8580a191fbaa5d8c *R/permute.rows.R
 61c7b7912cbf1a427638d0449badb6ed *R/print.nsc.R
 fb42d5cf3756816e3f17fdbfdda70ec7 *R/print.nsccv.R
@@ -53,11 +49,9 @@ d3a2f25e50020835fd41042f6a08bcc8 *man/pamr.confusion.survival.Rd
 9a6078977b039430042ebba83ddc67d9 *man/pamr.cv.Rd
 78bd2baf8e172b538f01fb750ebb1639 *man/pamr.decorrelate.Rd
 3e268649b07f4b3ee89e1c1f1a448338 *man/pamr.fdr.Rd
-dc4cfa31f9d9b53d0cf8cbd63b3297ab *man/pamr.from.excel.Rd
 445b10ab578ddabc7c99aa0a883e9dec *man/pamr.geneplot.Rd
 d122451cf474f3d94aaf24c253490a22 *man/pamr.indeterminate.Rd
-3d5d383611bfc410573df797c853e25a *man/pamr.internal.Rd
-7f42adc09df55d55a649b0fe4d8c4747 *man/pamr.knnimpute.Rd
+f27ba5ca8727d97e73659d9e5fc9c214 *man/pamr.internal.Rd
 c4a515e73823ce33ed559fd9bf9f61e4 *man/pamr.listgenes.Rd
 668fa8a08b7c12aaa638d659405dfdf5 *man/pamr.makeclasses.Rd
 c195be411ca5140dd860043643ea94df *man/pamr.menu.Rd
@@ -71,6 +65,5 @@ df0609e914feec892925fd4900cd0727 *man/pamr.plotsurvival.Rd
 32e7aa28c1d9a66eb4390bdd0504d097 *man/pamr.predictmany.Rd
 229fd68a5bf9a2bd13104c8cc4f4def2 *man/pamr.surv.to.class2.Rd
 d83c019e2e26f6ef89686ecf41ad19db *man/pamr.test.errors.surv.compute.Rd
-0b64baf1eb1554b96a057e315ef293b2 *man/pamr.to.excel.Rd
 6b95144259153aa335effa52cd8b070b *man/pamr.train.Rd
 a56d296bb0f31b630be91360a4906a14 *src/knnimpute.f
