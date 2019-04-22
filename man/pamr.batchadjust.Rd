@@ -34,6 +34,7 @@ pamr.batchadjust(data)
 \author{ Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 
 \examples{
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(120)
 #generate some data
 x <- matrix(rnorm(1000*20),ncol=20)

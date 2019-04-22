@@ -60,6 +60,7 @@ pamr.makeclasses(data,sort.by.class=FALSE,...)
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 
 \examples{
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(120)
 #generate some data
 x <- matrix(rnorm(1000*40),ncol=40)

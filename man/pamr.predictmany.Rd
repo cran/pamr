@@ -35,6 +35,7 @@ pamr.predictmany(fit, newx, threshold = fit$threshold, prior = fit$prior,
 \author{ Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and Gilbert Chu  }
 
 \examples{
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(120)
 x <- matrix(rnorm(1000*20),ncol=20)
 y <- sample(c(1:4),size=20,replace=TRUE)

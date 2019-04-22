@@ -46,6 +46,7 @@ training set  least squares regression model for adjustment
 
 \examples{
 #generate some data
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(120)
 
 x<-matrix(rnorm(1000*20),ncol=20)

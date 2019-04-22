@@ -1,12 +1,12 @@
 Package: pamr
 Title: Pam: Prediction Analysis for Microarrays
-Version: 1.56
+Version: 1.56.1
 Author: T. Hastie, R. Tibshirani, Balasubramanian Narasimhan, Gil Chu
 Description: Some functions for sample classification in microarrays.
 Maintainer: Rob Tibshirani  <tibs@stanford.edu>
 Depends: R (>= 2.10), cluster, survival
 License: GPL-2
-Packaged: 2019-01-26 15:41:47 UTC; tibs
+Packaged: 2019-04-21 11:21:24 UTC; ripley
 Repository: CRAN
 NeedsCompilation: yes
-Date/Publication: 2019-02-01 08:40:08 UTC
+Date/Publication: 2019-04-22 06:58:41 UTC
