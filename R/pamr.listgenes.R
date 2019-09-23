@@ -1,12 +1,12 @@
 pamr.listgenes <- function (fit,   data, threshold, fitcv=NULL, genenames = FALSE)  {
   x <- data$x[fit$gene.subset, fit$sample.subset]
 if (genenames) {
-    gnames <- data$genenames[fit$gene.subset]
+    gnames <- rownames(x)[fit$gene.subset]
   }
   if (!genenames) {
     gnames <- NULL
   }
-  geneid <- data$geneid[fit$gene.subset]
+  geneid <- fit$gene.subset
   if(!is.null(fit$y)){
        nc <- length(fit$y)
       }
