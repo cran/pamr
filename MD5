@@ -1,5 +1,4 @@
-31e5e4f4749e6f55d84cbc826fdb57be *DESCRIPTION
-430b42ff6faacf7904a281b81ce52da1 *INDEX
+b4564d594352267a82efa7062291fa74 *DESCRIPTION
 a013f5a35633b0ac531127f2199d0148 *NAMESPACE
 3e9a5a7e57f9186f93a6e6e3b6e3f231 *R/balanced.folds.R
 a9fa703b4c6ffaccb04deb2eba336b0b *R/descendants.R
@@ -40,7 +39,7 @@ ddae48d3df6c057148c51d2e8ffecd51 *R/roc.R
 1dbf2b705691fbdd2fb0b5b26986c941 *R/softshrink.R
 a1f4d9a9fd31b8b664b6f75dccaaa0ee *R/which.is.max.R
 e8096e76722eca5b2df0acfe386c0db3 *data/datalist
-88b7517fd39b66b7f202fa66504c8cd5 *data/khan.rda
+d64f28c69388d3d18445fd02cf0fe9b8 *data/khan.rda
 8d0a0be984ab3d9ef53067a53be8791f *man/khan.Rd
 2f8f6d4104e43e4b477c0d768b875000 *man/pamr.adaptthresh.Rd
 182f266a7d60ed6ef80fd6520c60478e *man/pamr.batchadjust.Rd
@@ -51,7 +50,7 @@ a32286faa78aaeda7d39cc94f2c1f514 *man/pamr.decorrelate.Rd
 290eb352615c7867bf6a6e75fc5411b2 *man/pamr.fdr.Rd
 73c6ed8df9b0091cbe918dcd36c3a22b *man/pamr.geneplot.Rd
 adcbe5d48f776a4d6eea201db47a092b *man/pamr.indeterminate.Rd
-f27ba5ca8727d97e73659d9e5fc9c214 *man/pamr.internal.Rd
+14b1bb322665cb376daad7778155b822 *man/pamr.internal.Rd
 0e8d75a6965aa1c306295fe5e49ffc07 *man/pamr.listgenes.Rd
 93117743e724d1672958e95d278931e8 *man/pamr.makeclasses.Rd
 61a9997c8b19b7f732b609f398bd3833 *man/pamr.menu.Rd
