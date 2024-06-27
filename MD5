@@ -1,4 +1,4 @@
-b4564d594352267a82efa7062291fa74 *DESCRIPTION
+d3eeea0771c618d674aa9c8b8fcf76c3 *DESCRIPTION
 a013f5a35633b0ac531127f2199d0148 *NAMESPACE
 3e9a5a7e57f9186f93a6e6e3b6e3f231 *R/balanced.folds.R
 a9fa703b4c6ffaccb04deb2eba336b0b *R/descendants.R
@@ -65,4 +65,4 @@ de6bffcebbc9258e2ad73314149322ca *man/pamr.predict.Rd
 229fd68a5bf9a2bd13104c8cc4f4def2 *man/pamr.surv.to.class2.Rd
 d83c019e2e26f6ef89686ecf41ad19db *man/pamr.test.errors.surv.compute.Rd
 c01e178393464f8dbce6127a1a4aef37 *man/pamr.train.Rd
-a56d296bb0f31b630be91360a4906a14 *src/knnimpute.f
+2912caf7cbd1ce59d1deb8bac53c69aa *src/knnimpute.f

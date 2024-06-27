@@ -86,6 +86,7 @@
 23026 continue
       return
       end
+ 
       subroutine porder(kn,dist, ntr,pos,nndist)
       integer kn, ntr
       double precision  dist(ntr), nndist(kn)
@@ -94,32 +95,34 @@
          if(j .le. kn) then
             do 30 k = 1, j-1
                if(dist(j) .lt. nndist(k)) then
-                  do 20 k1 = j-1, k, -1
+                  do k1 = j-1, k, -1
                      nndist(k1+1) = nndist(k1)
- 20                  pos(k1+1) = pos(k1)
-                     nndist(k) = dist(j)
-                     pos(k) = j
-                     goto 50
-                  endif
- 30            continue
-               nndist(j) = dist(j)
-               pos(j) = j
-            else
-               if(dist(j) .ge. nndist(kn)) go to 50
-               do 40 k = 1, kn
-                  if(dist(j) .lt. nndist(k)) then
-                     do 35 k1 = kn-1, k, -1
-                        nndist(k1+1) = nndist(k1)
- 35                     pos(k1+1) = pos(k1)
-                        nndist(k) = dist(j)
-                        pos(k) = j
-                        goto 50
-                     endif
- 40               continue
+                     pos(k1+1) = pos(k1)
+                  end do
+                  nndist(k) = dist(j)
+                  pos(k) = j
+                  goto 50
                endif
- 50         continue
-            return
-            end
+ 30         continue
+            nndist(j) = dist(j)
+            pos(j) = j
+         else
+            if(dist(j) .ge. nndist(kn)) go to 50
+            do 40 k = 1, kn
+               if(dist(j) .lt. nndist(k)) then
+                  do k1 = kn-1, k, -1
+                     nndist(k1+1) = nndist(k1)
+                     pos(k1+1) = pos(k1)
+                  end do
+                  nndist(k) = dist(j)
+                  pos(k) = j
+                  goto 50
+               endif
+ 40         continue
+         endif
+ 50   continue
+      return
+      end
       
       
       subroutine twomis(x,p,n,imiss,x0,imiss0,maxit,eps,istart,clust, 
