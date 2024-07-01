@@ -1,3 +1,48 @@
+#' A function to adaptive choose threshold scales, for use in pamr.train
+#' 
+#' A function to adaptive choose threshold scales, for use in pamr.train
+#' 
+#' \code{pamr.adaptthresh} Adaptively searches for set of good threshold
+#' scales.  The baseline (default) scale is 1 for each class. The idea is that
+#' for easy to classify classes, the threshold scale can be increased without
+#' increasing the error rate for that class, and resulting in fewer genes
+#' needed for the classification rule. The scalings from pamr.adaptthresh are
+#' then used in pamr.train, and pamr.cv. The results may be better than those
+#' obtained with the default values of threshold.scale.
+#' 
+#' @param object The result of a call to pamr.train
+#' @param ntries Number of iterations to use in algorithm
+#' @param reduction.factor Amount by which a scaling is reduced in one step of
+#' the algorithm
+#' @param full.out Should full output be returned? Default FALSE
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @references
+#' 
+#' Robert Tibshirani, Trevor Hastie, Balasubramanian Narasimhan, and Gilbert
+#' Chu. "Diagnosis of multiple cancer types by shrunken centroids of gene
+#' expression" PNAS 2002 99:6567-6572 (May 14).
+#' 
+#' Robert Tibshirani, Trevor Hastie, Balasubramanian Narasimhan, and Gilbert
+#' Chu (2002).  Class prediction by nearest shrunken centroids,with
+#' applications to DNA microarrays. Stanford tech report.
+#' @examples
+#' 
+#' suppressWarnings(RNGversion("3.5.0"))
+#' set.seed(120)
+#' x <- matrix(rnorm(1000*20),ncol=20)
+#' y <- sample(c(1:4),size=20,replace=TRUE)
+#' mydata <- list(x=x,y=y)
+#' mytrain <-   pamr.train(mydata)
+#' new.scales <- pamr.adaptthresh(mytrain)
+#' 
+#'  
+#' mytrain2 <- pamr.train(mydata, threshold.scale=new.scales)
+#' 
+#' myresults2 <- pamr.cv(mytrain2, mydata)
+#' 
+#' 
+#' @export pamr.adaptthresh
 pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.out = FALSE) {
   errors <- error.nsc(object)
   threshold <- object$threshold   
@@ -44,6 +89,38 @@ pamr.adaptthresh <- function(object, ntries = 10, reduction.factor = 0.9, full.o
     opt.scale
 }
 
+
+
+#' A function to mean-adjust microarray data by batches
+#' 
+#' A function to mean-adjust microarray data by batches
+#' 
+#' \code{pamr.batchadjust} does a genewise one-way ANOVA adjustment for
+#' expression values.  Let \eqn{x(i,j)} be the expression for gene \eqn{i} in sample \eqn{j}.
+#' Suppose sample \eqn{j} in in batch \eqn{b}, and let \eqn{B} be the set of all samples in batch
+#' \eqn{b}. Then \code{pamr.batchadjust} adjusts \eqn{x(i,j)} to \eqn{x(i,j) - mean[x(i,j)]}
+#' where the mean is taken over all samples \eqn{j} in \eqn{B}.
+#' 
+#' @param data The input data. A list with components: x- an expression genes
+#' in the rows, samples in the columns, and y- a vector of the class labels for
+#' each sample, and batchlabels- a vector of batch labels for each sample.
+#' @return A data object of the same form as the input data, with x replaced by
+#' the adjusted x
+#' @author Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#' suppressWarnings(RNGversion("3.5.0"))
+#' set.seed(120)
+#' #generate some data
+#' x <- matrix(rnorm(1000*20),ncol=20)
+#' y <- sample(c(1:4),size=20,replace=TRUE)
+#' batchlabels <- sample(c(1:5),size=20,replace=TRUE)
+#' mydata <- list(x=x,y=factor(y),batchlabels=factor(batchlabels))
+#' 
+#' mydata2 <- pamr.batchadjust(mydata)
+#' 
+#' @export pamr.batchadjust
 pamr.batchadjust <- function(data) {
   if (is.null(data$batchlabels)) {
     stop("batch labels are not in data object")

@@ -1,3 +1,4 @@
+#' @method print pamrtrained
 print.pamrtrained <- function(x, ...) {
   cat("Call:\n")
   dput(x$call)

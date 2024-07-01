@@ -1,3 +1,38 @@
+#' A function giving prediction information, from a nearest shrunken centroid
+#' fit.
+#' 
+#' A function giving prediction information, from a nearest shrunken centroid
+#' fit
+#' 
+#' \code{pamr.predict} Give a cross-tabulation of true versus predicted classes
+#' for the fit returned by pamr.train or pamr.cv, at the specified threshold
+#' 
+#' @param fit The result of a call to pamr.train
+#' @param newx Matrix of features at which predictions are to be made
+#' @param threshold The desired threshold value
+#' @param type Type of prediction desired: class predictions, posterior
+#' probabilities, (unshrunken) class centroids, vector of genes surviving the
+#' threshold
+#' @param prior Prior probabilities for each class. Default is that specified
+#' in "fit"
+#' @param threshold.scale Additional scaling factors to be applied to the
+#' thresholds. Vector of length equal to the number of classes.  Default is
+#' that specified in "fit".
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#' suppressWarnings(RNGversion("3.5.0"))
+#' set.seed(120)
+#' x <- matrix(rnorm(1000*20),ncol=20)
+#' y <- sample(c(1:4),size=20,replace=TRUE)
+#' mydata <- list(x=x,y=y)
+#' mytrain <-   pamr.train(mydata)
+#' mycv <- pamr.cv(mytrain,mydata)
+#' pamr.predict(mytrain, mydata$x , threshold=1)
+#'  
+#' 
+#' @export pamr.predict
 pamr.predict <-  function(fit, newx, threshold, type = c("class", "posterior", "centroid", "nonzero"), 
                           prior = fit$prior,  threshold.scale = fit$
                           threshold.scale) {

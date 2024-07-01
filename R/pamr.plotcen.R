@@ -1,3 +1,32 @@
+#' A function to plot the shrunken class centroids, from the nearest shrunken
+#' centroid classifier
+#' 
+#' A function to plot the shrunken class centroids, from the nearest shrunken
+#' centroid classifier produced by pamr.train
+#' 
+#' \code{pamr.plotcen} plots the shrunken class centroids for each class, for
+#' genes surviving the threshold for at least once class. If genenames are
+#' included in "data", they are added to the plot. Note: for many classes and
+#' long gene names, this plot may need some manual prettying.
+#' 
+#' @param fit The result of a call to pamr.train
+#' @param data The input data, in the same form as that used by pamr.train
+#' @param threshold The desired threshold value
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#' suppressWarnings(RNGversion("3.5.0"))
+#' set.seed(120)
+#' x <- matrix(rnorm(1000*20),ncol=20)
+#' y <- sample(c(1:4),size=20,replace=TRUE)
+#' mydata <- list(x=x,y=y,genenames=as.character(1:1000))
+#' mytrain <-   pamr.train(mydata)
+#' mycv <- pamr.cv(mytrain,mydata)
+#' pamr.plotcen(mytrain, mydata,threshold=1.6)
+#'  
+#' 
+#' @export pamr.plotcen
 pamr.plotcen <- function(fit, data, threshold) {
   genenames <- data$genenames[fit$gene.subset]
   x <- data$x[fit$gene.subset, fit$sample.subset]

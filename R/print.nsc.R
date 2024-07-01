@@ -1,3 +1,4 @@
+#' @method print nsc
 print.nsc <- function(x, ...) {
   cat("Call:\n")
   dput(x$call)

@@ -1,4 +1,5 @@
- print.pamrcved <-function(x, ...) {
+#' @method print pamrcved
+print.pamrcved <-function(x, ...) {
    cat("Call:\n")
    dput(x$call)
   

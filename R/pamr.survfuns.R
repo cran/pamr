@@ -13,6 +13,75 @@ pamr.score.to.class2 <- function (x, scores, cutoff=2, n.pc=1, n.class=2)
         return(out)
 }
 
+
+
+#' A function to assign observations to categories, based on their survival
+#' times.
+#' 
+#' A function to assign observations to categories, based on their survival
+#' times.
+#' 
+#' \code{pamr.pamr.surv.to.class2} splits observations into categories based on
+#' their survival times and the Kaplan-Meier estimates. For example if
+#' n.class=2, it makes two categories, one below the median survival, the other
+#' above. For each observation (newy, ic), it then computes the probability of
+#' that observation falling in each category. For an uncensored observation
+#' that probability is just 1 or 0 depending on when the death occurred. For a
+#' censored observation, the probabilities are based on the Kaplan Meier and
+#' are typically between 0 and 1.
+#' 
+#' @param y vector of survival times
+#' @param icens Vector of censorng status values: 1=died, 0=censored
+#' @param cutoffs Survival time cutoffs for categories. Default NULL
+#' @param n.class Number of classes to create: if cutoffs is NULL, n.class
+#' equal classes are created.
+#' @param class.names Character names for classes
+#' @param newy New set of survival times, for which probabilities are computed
+#' (see below). Default is y
+#' @param newic New set of censoring statuses, for which probabilities are
+#' computed (see below). Default is icens
+#' @return \item{class}{The category labels} \item{prob}{The estimates class
+#' probabilities} \item{cutoffs}{The cutoffs used}
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#' 
+#' gendata<-function(n=100, p=2000){
+#'   tim <- 3*abs(rnorm(n))
+#'   u<-runif(n,min(tim),max(tim))
+#'   y<-pmin(tim,u)
+#'    ic<-1*(tim<u)
+#' m <- median(tim)
+#' x<-matrix(rnorm(p*n),ncol=n)
+#'   x[1:100, tim>m] <-  x[1:100, tim>m]+3
+#'   return(list(x=x,y=y,ic=ic))
+#' }
+#' 
+#' # generate training data; 2000 genes, 100 samples
+#' 
+#' junk<-gendata(n=100)
+#' y<-junk$y
+#' ic<-junk$ic
+#' x<-junk$x
+#' d <- list(x=x,survival.time=y, censoring.status=ic,
+#' geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+#' ""))
+#' 
+#' # train model
+#' a3<- pamr.train(d, ngroup.survival=2)
+#' 
+#' # generate test data
+#' junkk<- gendata(n=500)
+#' 
+#' dd <- list(x=junkk$x, survival.time=junkk$y, censoring.status=junkk$ic)
+#' 
+#' # compute soft labels
+#' proby <-  pamr.surv.to.class2(dd$survival.time, dd$censoring.status,
+#'              n.class=a3$ngroup.survival)$prob
+#' 
+#' 
+#' @export pamr.surv.to.class2
 pamr.surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens)
 
 # Splits patients into classes based on their survival times
@@ -262,6 +331,23 @@ function(x, y, ic, offset = rep(0, length(y)), coxstuff.obj = NULL)
 	}
 	return(w)
 }
+
+
+#' Compute confusin matrix from pamr survival fit
+#' 
+#' computes confusion matrix for (survival.time,censoring) outcome based on fit
+#' object "fit" and class predictions "yhat" soft response probabilities for
+#' (survival.time,censoring) are first estimated using Kaplan-Meier method
+#' applied to training data
+#' 
+#' 
+#' @param fit The result of a call to pamr.train or pamr.cv
+#' @param survival.time Survival time
+#' @param censoring.status censoring status
+#' @param yhat class predictions
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @export pamr.confusion.survival
 pamr.confusion.survival <-
   
  function(fit, survival.time,censoring.status, yhat){
@@ -300,6 +386,54 @@ ytemp<- apply(true,1,which.is.max)
 
 return(tt)
 }
+
+
+#' A function to plots Kaplan-Meier curves stratified by a group variable
+#' 
+#' A function to plots Kaplan-Meier curves stratified by a group variable
+#' 
+#' 
+#' @param group A grouping factor
+#' @param survival.time Vector of survival times
+#' @param censoring.status Vector of censoring status values: 1=died,
+#' 0=censored
+#' @author Trevor Hastie,Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#' 
+#' gendata<-function(n=100, p=2000){
+#'   tim <- 3*abs(rnorm(n))
+#'   u<-runif(n,min(tim),max(tim))
+#'   y<-pmin(tim,u)
+#'    ic<-1*(tim<u)
+#' m <- median(tim)
+#' x<-matrix(rnorm(p*n),ncol=n)
+#'   x[1:100, tim>m] <-  x[1:100, tim>m]+3
+#'   return(list(x=x,y=y,ic=ic))
+#' }
+#' 
+#' # generate training data; 2000 genes, 100 samples
+#' 
+#' junk<-gendata(n=100)
+#' y<-junk$y
+#' ic<-junk$ic
+#' x<-junk$x
+#' d <- list(x=x,survival.time=y, censoring.status=ic,
+#' geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+#' ""))
+#' 
+#' # train model
+#' a3<- pamr.train(d, ngroup.survival=2)
+#' 
+#' #make class predictions
+#' 
+#' yhat <- pamr.predict(a3,d$x, threshold=1.0)
+#' 
+#' pamr.plotsurvival(yhat, d$survival.time, d$censoring.status)
+#' 
+#' 
+#' @export pamr.plotsurvival
 pamr.plotsurvival <- function(group, survival.time, censoring.status){
   # plots Kaplan-Meier curves stratified by "group"
 #  require(survival)
@@ -342,6 +476,67 @@ for(i in 1:length(table(a))){
 return(aa)
 }
 
+
+
+#' A function giving a table of true versus predicted values, from a nearest
+#' shrunken centroid fit from survival data.
+#' 
+#' A function giving a table of true versus predicted values, from a nearest
+#' shrunken centroid fit from survival data.
+#' 
+#' \code{pamr.test.errors.surv.compute} computes the erros between the true
+#' 'soft" class labels proby and the estimated ones "yhat"
+#' 
+#' @param proby Survival class probabilities, from pamr.surv.to.class2
+#' @param yhat Estimated class labels, from pamr.predict
+#' @author Trevor Hastie, Robert Tibshirani, Balasubramanian Narasimhan, and
+#' Gilbert Chu
+#' @examples
+#' 
+#'  
+#' gendata<-function(n=100, p=2000){
+#'   tim <- 3*abs(rnorm(n))
+#'   u<-runif(n,min(tim),max(tim))
+#'   y<-pmin(tim,u)
+#'    ic<-1*(tim<u)
+#' m <- median(tim)
+#' x<-matrix(rnorm(p*n),ncol=n)
+#'   x[1:100, tim>m] <-  x[1:100, tim>m]+3
+#'   return(list(x=x,y=y,ic=ic))
+#' }
+#' 
+#' # generate training data; 2000 genes, 100 samples
+#' 
+#' junk<-gendata(n=100)
+#' y<-junk$y
+#' ic<-junk$ic
+#' x<-junk$x
+#' d <- list(x=x,survival.time=y, censoring.status=ic, 
+#' geneid=as.character(1:nrow(x)), genenames=paste("g",as.character(1:nrow(x)),sep=
+#' ""))
+#' 
+#' # train model
+#' a3<- pamr.train(d, ngroup.survival=2)
+#' 
+#' # generate test data
+#' junkk<- gendata(n=500)
+#' 
+#' dd <- list(x=junkk$x, survival.time=junkk$y, censoring.status=junkk$ic)
+#' 
+#' # compute soft labels
+#' proby <-  pamr.surv.to.class2(dd$survival.time, dd$censoring.status,
+#'              n.class=a3$ngroup.survival)$prob
+#' 
+#' 
+#' # make class predictions for test data
+#' yhat <- pamr.predict(a3,dd$x, threshold=1.0)
+#' 
+#' # compute test errors
+#' 
+#' pamr.test.errors.surv.compute(proby, yhat)
+#' 
+#' 
+#' @export pamr.test.errors.surv.compute
 pamr.test.errors.surv.compute <- function(proby, yhat) {
 ## computes confusion matrix, class-wise error rate and overall error rate
 ## rows of confusion matrix refer to true classes; columns to predicted classes

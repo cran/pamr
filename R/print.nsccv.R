@@ -1,4 +1,5 @@
- print.nsccv <-function(x, ...) {
+#' @method print nsccv
+print.nsccv <-function(x, ...) {
    cat("Call:\n")
    dput(x$call)
   
